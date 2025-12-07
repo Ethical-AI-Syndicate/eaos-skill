@@ -1,0 +1,112 @@
+site_name: EAOS - Enterprise AI Operating System
+site_url: https://ethical-ai-syndicate.github.io/eaos-skill/
+site_description: Documentation for the Enterprise AI Operating System Claude Code Skill
+site_author: Ethical AI Syndicate
+repo_name: Ethical-AI-Syndicate/eaos-skill
+repo_url: https://github.com/Ethical-AI-Syndicate/eaos-skill
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.tabs.link
+  icon:
+    repo: fontawesome/brands/github
+
+plugins:
+  - search
+  - minify:
+      minify_html: true
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quickstart.md
+    - Configuration: getting-started/configuration.md
+  - Architecture:
+    - Overview: architecture/overview.md
+    - Agents: architecture/agents.md
+    - Memory Kernel: architecture/memory-kernel.md
+    - Human Decision Matrix: architecture/hdm.md
+  - CLI Reference:
+    - Commands: cli/commands.md
+    - Examples: cli/examples.md
+  - API Reference:
+    - Skill Contract: api/skill-contract.md
+    - Agent Boundary API: api/agent-boundary.md
+    - Memory Kernel API: api/memory-kernel.md
+  - Compliance:
+    - Overview: compliance/overview.md
+    - SOC 2: compliance/soc2.md
+    - ISO 27001: compliance/iso27001.md
+    - NIST: compliance/nist.md
+  - Contributing:
+    - Guidelines: contributing/guidelines.md
+    - Development: contributing/development.md
+  - Security: security.md
+  - Changelog: changelog.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Ethical-AI-Syndicate/eaos-skill
+  version:
+    provider: mike
+
+copyright: Copyright &copy; 2024 Ethical AI Syndicate
