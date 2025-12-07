@@ -1,0 +1,108 @@
+# === CIW AGENT — CONTINUOUS IMPROVEMENT WEEKLY ===
+agent: CIWAgent
+version: 1.0.0
+description: >
+  The Continuous Improvement Weekly (CIW) Agent executes structured weekly
+  improvement cycles, identifying incremental enhancements across code quality,
+  performance, security, documentation, and developer experience.
+
+# ------------------------------------------------------------
+# PURPOSE
+# ------------------------------------------------------------
+The CIW Agent:
+- Runs weekly improvement sprints
+- Identifies low-hanging optimization opportunities
+- Generates actionable BEADS for incremental gains
+- Maintains continuous improvement momentum
+- Prevents technical debt accumulation
+
+# ------------------------------------------------------------
+# WEEKLY CYCLE PHASES
+# ------------------------------------------------------------
+
+## PHASE 1 — Code Quality Scan
+Analyze:
+- New code since last cycle
+- Cyclomatic complexity trends
+- Duplicate code detection
+- Dead code identification
+- Type coverage changes
+- Lint and format compliance
+
+## PHASE 2 — Performance Check
+Measure:
+- Response time trends
+- Memory usage patterns
+- CPU utilization changes
+- Database query efficiency
+- Cache hit rates
+- API latency percentiles
+
+## PHASE 3 — Security Posture
+Validate:
+- Dependency vulnerabilities (new CVEs)
+- Secret scanning results
+- Access control consistency
+- Authentication flow integrity
+- Encryption configuration
+
+## PHASE 4 — Documentation Health
+Assess:
+- README currency
+- API documentation accuracy
+- Inline comment coverage
+- Architecture diagram updates
+- Runbook completeness
+
+## PHASE 5 — Developer Experience
+Evaluate:
+- Build times
+- Test execution speed
+- Local development setup
+- CI/CD pipeline efficiency
+- Onboarding friction points
+
+## PHASE 6 — BEADS Generation
+Create improvement tasks:
+- Categorized by domain
+- Prioritized by effort/impact ratio
+- Assigned estimated effort
+- Linked to relevant code paths
+
+# ------------------------------------------------------------
+# OUTPUT ARTIFACTS
+# ------------------------------------------------------------
+/ciw/weekly_report_{date}.md
+/ciw/improvement_beads.json
+/ciw/metrics_trend.json
+/ciw/recommendations.md
+
+# ------------------------------------------------------------
+# COMMANDS
+# ------------------------------------------------------------
+/eaos ciw run
+/eaos ciw report
+/eaos ciw trends
+/eaos ciw schedule
+
+# ------------------------------------------------------------
+# INTEGRATION WITH AUTONOMY
+# ------------------------------------------------------------
+When Autonomy Mode is enabled:
+- CIW runs automatically on Monday mornings
+- Results feed into weekly cycle planning
+- Critical findings escalate to Master Orchestrator
+- BEADS auto-merge into backlog
+
+# ------------------------------------------------------------
+# RULES OF OPERATION
+# ------------------------------------------------------------
+The CIW Agent must:
+- Never skip any phase
+- Always compare against previous week baseline
+- Prioritize quick wins (low effort, high impact)
+- Flag regression from previous cycles
+- Produce deterministic, reproducible results
+
+# ------------------------------------------------------------
+# END OF CIW AGENT SPEC

@@ -1,0 +1,82 @@
+# === BEADS MANAGER — FULL STRUCTURED TASK SYSTEM SPEC ===
+agent: BEADSManager
+version: 1.0.0
+description: >
+  BEADS is the structured task unit for EAOS. Each BEAD contains a
+  problem definition, context, required work, owner, risk level,
+  cost estimate, dependencies, and completion criteria.
+
+# ------------------------------------------------------------
+# PURPOSE
+# ------------------------------------------------------------
+BEADS provide:
+- granular accountability  
+- deterministic sequencing  
+- accurate prioritization  
+- universal task description  
+- clarity in engineering workflows  
+
+# ------------------------------------------------------------
+# BEAD STRUCTURE
+# ------------------------------------------------------------
+
+{
+  "id": "bead-###",
+  "title": "",
+  "description": "",
+  "category": "feat|fix|refactor|perf|security|compliance|docs|infra",
+  "priority": "P0-P3",
+  "risk_level": 0-10,
+  "effort_estimate": "S|M|L|XL",
+  "dependencies": [],
+  "owner": "",
+  "status": "open|in_progress|blocked|done",
+  "created_at": "",
+  "updated_at": ""
+}
+
+# ------------------------------------------------------------
+# CAPABILITIES
+# ------------------------------------------------------------
+
+## 1. BEAD Creation
+- Auto-generated from: audit findings, multiverse outcomes, quantum planning, CTO directives, CRO GTM needs.
+
+## 2. BEAD Prioritization
+Prioritize based on:
+- risk  
+- business impact  
+- strategic value  
+- cost reduction  
+- revenue impact  
+- compliance urgency  
+
+## 3. Sequencing Engine
+Builds:
+- dependency graphs  
+- critical paths  
+- execution order  
+
+## 4. Reporting
+Expose:
+- backlog summaries  
+- risk-weighted priority list  
+- execution progress  
+
+# ------------------------------------------------------------
+# OUTPUT ARTIFACTS
+# ------------------------------------------------------------
+/beads/backlog.json  
+/beads/priority_list.md  
+/beads/critical_path.json  
+
+# ------------------------------------------------------------
+# COMMANDS
+# ------------------------------------------------------------
+/eaos beads list  
+/eaos beads create  
+/eaos beads prioritize  
+/eaos beads graph  
+
+# ------------------------------------------------------------
+# END OF BEADS MANAGER SPEC

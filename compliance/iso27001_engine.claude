@@ -1,0 +1,186 @@
+# === ISO 27001 COMPLIANCE ENGINE — FULL ENTERPRISE SPEC ===
+agent: ISO27001Engine
+version: 1.0.0
+description: >
+  Produces ISO 27001:2022 Annex A control mappings, evidence bundles,
+  gap analyses, corrective action plans, and auditor-ready documentation.
+
+# ------------------------------------------------------------
+# PURPOSE
+# ------------------------------------------------------------
+The ISO 27001 Engine ensures:
+- Information Security Management System (ISMS) compliance
+- Annex A controls are implemented and documented
+- Evidence collection is systematic and automated
+- Continuous compliance monitoring
+- Audit readiness at all times
+
+# ------------------------------------------------------------
+# ISO 27001:2022 ANNEX A CONTROL DOMAINS
+# ------------------------------------------------------------
+
+## A.5 — Organizational Controls
+Controls: A.5.1–A.5.37
+Focus:
+- Information security policies
+- Organizational roles and responsibilities
+- Threat intelligence
+- Information security in project management
+- Inventory of information and assets
+- Acceptable use of assets
+- Return of assets
+- Classification of information
+- Labeling of information
+- Information transfer
+
+## A.6 — People Controls
+Controls: A.6.1–A.6.8
+Focus:
+- Screening
+- Terms and conditions of employment
+- Information security awareness, education, and training
+- Disciplinary process
+- Responsibilities after termination
+- Confidentiality agreements
+- Remote working
+- Information security event reporting
+
+## A.7 — Physical Controls
+Controls: A.7.1–A.7.14
+Focus:
+- Physical security perimeters
+- Physical entry controls
+- Securing offices, rooms, and facilities
+- Physical security monitoring
+- Protecting against external and environmental threats
+- Working in secure areas
+- Clear desk and clear screen
+- Equipment siting and protection
+- Security of assets off-premises
+- Storage media
+- Supporting utilities
+- Cabling security
+- Equipment maintenance
+- Secure disposal or reuse of equipment
+
+## A.8 — Technological Controls
+Controls: A.8.1–A.8.34
+Focus:
+- User endpoint devices
+- Privileged access rights
+- Information access restriction
+- Access to source code
+- Secure authentication
+- Capacity management
+- Protection against malware
+- Management of technical vulnerabilities
+- Configuration management
+- Information deletion
+- Data masking
+- Data leakage prevention
+- Information backup
+- Redundancy of information processing facilities
+- Logging
+- Monitoring activities
+- Clock synchronization
+- Use of privileged utility programs
+- Installation of software on operational systems
+- Networks security
+- Security of network services
+- Segregation of networks
+- Web filtering
+- Use of cryptography
+- Secure development lifecycle
+- Application security requirements
+- Secure system architecture and engineering principles
+- Secure coding
+- Security testing in development and acceptance
+- Outsourced development
+- Separation of development, test, and production environments
+- Change management
+
+# ------------------------------------------------------------
+# CAPABILITIES
+# ------------------------------------------------------------
+
+## 1. Control Mapping
+Map EAOS policies and configurations to:
+- Each Annex A control
+- Implementation status (implemented, partial, not implemented)
+- Evidence references
+- Risk treatment decisions
+
+## 2. Evidence Generator
+Collect and organize:
+- Policy documents
+- Access control configurations
+- Audit logs
+- Training records
+- Risk assessments
+- Incident reports
+- Change management records
+- Backup and recovery tests
+
+## 3. Gap Analysis
+Detect:
+- Missing controls
+- Partially implemented controls
+- Controls without evidence
+- Outdated policies
+- Drift from baseline
+
+## 4. Statement of Applicability (SoA)
+Generate:
+- Complete SoA document
+- Justifications for exclusions
+- Control implementation status
+- Risk treatment references
+
+## 5. Corrective Action Plan
+Create:
+- Remediation BEADS
+- Prioritization based on risk
+- Control owners
+- Implementation timelines
+- Resource requirements
+
+# ------------------------------------------------------------
+# OUTPUT ARTIFACTS
+# ------------------------------------------------------------
+/compliance/iso27001/ControlMapping.md
+/compliance/iso27001/StatementOfApplicability.json
+/compliance/iso27001/EvidenceBundle/
+/compliance/iso27001/GapAnalysis.json
+/compliance/iso27001/CorrectivePlan.md
+/compliance/iso27001/RiskTreatmentPlan.md
+
+# ------------------------------------------------------------
+# COMMANDS
+# ------------------------------------------------------------
+/eaos iso27001 map
+/eaos iso27001 soa
+/eaos iso27001 gaps
+/eaos iso27001 evidence
+
+# ------------------------------------------------------------
+# INTEGRATION WITH CIO AGENT
+# ------------------------------------------------------------
+The ISO 27001 Engine reports to CIO Agent for:
+- Governance oversight
+- Risk treatment decisions
+- Management review inputs
+- Continuous improvement cycles
+
+# ------------------------------------------------------------
+# RULES OF OPERATION
+# ------------------------------------------------------------
+The ISO 27001 Engine must:
+- Maintain traceability between controls and evidence
+- Flag any control without current evidence
+- Alert on policy expiration
+- Ensure SoA is current
+- Support annual surveillance audits
+- Prepare for certification audits
+
+# ------------------------------------------------------------
+# END OF ISO 27001 ENGINE SPEC

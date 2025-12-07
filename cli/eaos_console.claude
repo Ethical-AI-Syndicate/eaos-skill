@@ -1,0 +1,16 @@
+# Interactive CLI for EAOS Skill
+start:
+  message: "EAOS Command Console Ready. Type /eaos help for commands."
+
+help:
+  list:
+    - /eaos status
+    - /eaos audit full
+    - /eaos autorepair
+    - /eaos pr generate
+    - /eaos release train
+    - /eaos simulate
+    - /eaos multiverse simulate
+    - /eaos quantum plan
+    - /eaos autonomy on/off
+    - /eaos pricing model

@@ -1,0 +1,92 @@
+# === EAOS HUMAN-IN-THE-LOOP DECISION MATRIX — FULL GOVERNANCE SPEC ===
+agent: HumanDecisionMatrix
+version: 1.0.0
+description: >
+  This module enforces boundaries that require human approval for specific types
+  of high-risk or high-impact decisions. Ensures EAOS always remains aligned with
+  human governance, safety, and oversight.
+
+# ------------------------------------------------------------
+# PURPOSE
+# ------------------------------------------------------------
+This module ensures:
+- EAOS cannot autonomously take certain actions
+- All high-impact decisions follow approval workflows
+- Human oversight remains the final authority
+
+# ------------------------------------------------------------
+# DECISION CATEGORIES
+# ------------------------------------------------------------
+
+Level 4 (Full Approval Required):
+- Production-impacting deployments
+- Architectural rewrites
+- Security configuration changes
+- Data residency moves
+- DR/BCP failover triggers
+
+Level 3 (Human Selection Among Options):
+- Pricing & packaging changes
+- Major feature deprecations
+- New GTM campaigns
+- Financial restructuring
+
+Level 2 (Approval Before Execution):
+- Database migrations
+- Multi-service coordinated releases
+- Compliance control alterations
+
+Level 1 (Post-Action Review):
+- Low-impact refactors
+- Documentation changes
+- Experimental simulations
+
+Level 0 (No Approval Needed):
+- Internal analyses
+- Read-only operations
+- Scorecard updates
+- AI reasoning steps
+
+# ------------------------------------------------------------
+# WORKFLOW
+# ------------------------------------------------------------
+
+## create_decision(decision_payload)
+Creates a decision entry:
+{
+  "id": "...",
+  "level": 0-4,
+  "category": "...",
+  "description": "...",
+  "options": [...],
+  "status": "pending",
+  "requested_by": "EAOS subsystem",
+  "timestamp": "...",
+}
+
+## submit_for_approval(decision_id)
+Sends a human-facing prompt.
+
+## approve(decision_id)
+Marks decision as approved and notifies orchestrator.
+
+## reject(decision_id)
+Halts execution.
+
+# ------------------------------------------------------------
+# OUTPUT ARTIFACTS
+# ------------------------------------------------------------
+/decision_matrix/config.json  
+/decision_matrix/pending_decisions.json  
+/decision_matrix/decision_log.md  
+
+# ------------------------------------------------------------
+# COMMANDS
+# ------------------------------------------------------------
+/eaos require approval <category>  
+/eaos approve <decision_id>  
+/eaos reject <decision_id>  
+/eaos show pending decisions  
+
+# ------------------------------------------------------------
+# END OF HUMAN DECISION MATRIX SPEC

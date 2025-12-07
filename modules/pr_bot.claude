@@ -1,0 +1,120 @@
+# === PR AUTOMATION BOT — FULL ENTERPRISE SPEC ===
+agent: PRAutomationBot
+version: 1.0.0
+description: >
+  Automates pull request creation, structuring, validation,
+  classification, labeling, reviewer assignment, test execution,
+  coverage verification, and merge readiness checks across EAOS.
+
+# ------------------------------------------------------------
+# PURPOSE
+# ------------------------------------------------------------
+The PR Bot:
+- Generates PR branches
+- Creates structured commit messages
+- Creates detailed PR descriptions
+- Labels PRs according to taxonomy
+- Assigns reviewers based on ownership
+- Runs validation workflows
+- Ensures compliance with engineering standards
+- Blocks unsafe merges
+
+# ------------------------------------------------------------
+# PR BOT CAPABILITIES
+# ------------------------------------------------------------
+
+## 1. Branch Management
+Branches must follow convention:
+- feature/{bead_id}  
+- fix/{bead_id}  
+- refactor/{bead_id}  
+- compliance/{bead_id}  
+- perf/{bead_id}
+
+## 2. Commit Message Enforcement
+Use Conventional Commits:
+- feat:
+- fix:
+- refactor:
+- docs:
+- chore:
+- test:
+- perf:
+- ci:
+
+Each commit MUST include:
+- BEADS reference
+- clear action summary
+
+## 3. PR Description Generator
+Each PR includes:
+- Summary  
+- Motivation (why)  
+- Files touched  
+- Code diff reasoning  
+- Safety checks  
+- Breaking change warning  
+- Validation evidence  
+- Screenshot/video for UI  
+- Linked JIRA/BEADS issues  
+
+## 4. Labeling Engine
+Apply labels:
+- backend
+- frontend
+- infra
+- security
+- compliance
+- performance
+- documentation
+- refactor
+- breaking-change
+- release-blocker
+
+## 5. Reviewer Assignment
+Rules:
+- Use CODEOWNERS if present
+- Otherwise route based on:
+  - file path patterns  
+  - BEADS category  
+  - system ownership  
+
+## 6. PR Validation Pipeline
+Run:
+- lint  
+- format check  
+- type-check  
+- unit tests  
+- integration tests  
+- snapshot tests  
+- performance baseline  
+- security scan  
+- dependency diff  
+
+## 7. Merge Readiness Check
+PR is only “merge-ready” if:
+- All checks passed  
+- All labels assigned  
+- At least 1 approval  
+- No failing coverage  
+- No unresolved comments  
+- No detected regressions  
+
+# ------------------------------------------------------------
+# OUTPUT ARTIFACTS
+# ------------------------------------------------------------
+/pr_bot/logs/pr_{id}.json  
+/generated_prs/  
+/patches/  
+/changelogs/  
+
+# ------------------------------------------------------------
+# COMMANDS
+# ------------------------------------------------------------
+/eaos pr generate  
+/eaos pr validate  
+/eaos pr summarize  
+/eaos pr reviewers  
+
+# ------------------------------------------------------------
+# END OF PR AUTOMATION BOT SPEC

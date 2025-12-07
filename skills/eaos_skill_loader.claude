@@ -1,0 +1,54 @@
+# === EAOS Skill Loader ===
+# Loads the complete Enterprise AI Operating System into Claude Code as a skill.
+
+initialize:
+  load:
+    - core/memory_kernel.claude
+    - core/autonomy_mode.claude
+    - core/sandbox_mode.claude
+    - core/multiverse_engine.claude
+    - core/quantum_planner.claude
+    - core/human_decision_matrix.claude
+    - core/swarm_mode.claude
+
+    - agents/master_orchestrator.claude
+    - agents/personas.claude
+    - agents/autonomous_cto.claude
+    - agents/cfo_agent.claude
+    - agents/cio_agent.claude
+    - agents/cro_agent.claude
+
+    - modules/pr_bot.claude
+    - modules/release_train.claude
+    - modules/ciw_agent.claude
+    - modules/self_healing_monthly.claude
+    - modules/audit_pipeline.claude
+    - modules/beads_manager.claude
+
+    - compliance/soc2_engine.claude
+    - compliance/iso27001_engine.claude
+    - compliance/nist_engine.claude
+
+    - executive/cxo_dashboard.claude
+    - executive/board_pack.claude
+
+    - sales/sales_engineer.claude
+    - marketing/growth_summary.claude
+    - finance/finops_engine.claude
+
+expose:
+  commands:
+    - /eaos status
+    - /eaos audit full
+    - /eaos audit quick
+    - /eaos autorepair
+    - /eaos pr generate
+    - /eaos release train
+    - /eaos simulate
+    - /eaos multiverse simulate
+    - /eaos quantum plan
+    - /eaos autonomy on
+    - /eaos cxodashboard
+    - /eaos board pack
+    - /eaos pricing model
+    - /eaos memory summary

@@ -1,0 +1,16 @@
+{
+  "name": "EAOS",
+  "description": "Enterprise AI Operating System providing multi-agent governance, auditing, compliance, release management, financial modeling, multiverse simulation, and strategy orchestration.",
+  "version": "1.0.0",
+  "entrypoint": "skills/eaos_skill_loader.claude",
+  "modules": [
+    "core/",
+    "agents/",
+    "modules/",
+    "executive/",
+    "compliance/",
+    "marketing/",
+    "finance/",
+    "sales/"
+  ]
+}

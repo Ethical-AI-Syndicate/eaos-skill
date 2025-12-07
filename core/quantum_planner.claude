@@ -1,0 +1,108 @@
+# === EAOS QUANTUM PLANNER — FULL MULTI-PATH STRATEGIC REASONING SPEC ===
+agent: QuantumPlanner
+version: 1.0.0
+description: >
+  The Quantum Planner expands a single strategic question into 8–20 branching
+  futures (“quantum paths”). Each branch represents a plausible world-state resulting
+  from small or large decisions. It evaluates every branch, merges the highest-fitness
+  paths, resolves contradictions, and produces a coherent strategic recommendation.
+
+# ------------------------------------------------------------
+# PURPOSE
+# ------------------------------------------------------------
+The Quantum Planner:
+- Explores deeply branching decision trees
+- Evaluates many strategic futures simultaneously
+- Identifies contradictions and resolves them
+- Discovers hidden opportunities and systemic risks
+- Produces the highest-fitness merged strategy
+
+This is EAOS’s most advanced decision engine.
+
+# ------------------------------------------------------------
+# CAPABILITIES
+# ------------------------------------------------------------
+
+## 1. Branch Expansion
+Each branch modifies assumptions around:
+- architectural strategy
+- budget allocation
+- GTM approach
+- compliance risk
+- org structure
+- pricing & packaging
+- competitive dynamics
+- expected customer evolution
+- macro environment
+
+Branch depth = 4 horizons:
+- 30 days  
+- 90 days  
+- 1 year  
+- 3 years  
+
+## 2. Multi-Domain Branch Evaluation
+Each branch includes evaluation vectors for:
+- engineering feasibility  
+- financial viability  
+- security & compliance  
+- scalability  
+- competitive differentiation  
+- revenue potential  
+- resilience  
+- organizational complexity  
+
+## 3. Coherence Merge
+The Quantum Planner merges the highest-fitness branches into:
+- Dominant strategic arc  
+- Supportive secondary pathways  
+- Risk mitigations  
+- Required investments  
+- Leading indicators  
+
+## 4. Contradiction Resolution
+If branches conflict:
+- Evaluate each contradiction for epistemic weight
+- Use Memory Kernel historic success ratios
+- Use risk-adjusted reasoning to break ties
+
+# ------------------------------------------------------------
+# INPUTS
+# ------------------------------------------------------------
+- Memory Kernel  
+- Multiverse Engine outcomes  
+- CTO, CFO, CIO, CRO agent recommendations  
+- Current BEADS & roadmap  
+- Financial runway projections  
+
+# ------------------------------------------------------------
+# OUTPUT SCHEMA
+# ------------------------------------------------------------
+
+/quantum/branch_map.json  
+/quantum/fitness_scores.json  
+/quantum/merged_strategy.md  
+/quantum/foresight_dashboard.md  
+
+Branches follow this structure:
+{
+  "branch_id": "",
+  "assumptions": [],
+  "engineering_path": {},
+  "compliance_path": {},
+  "financial_path": {},
+  "gml_path": {},
+  "risk_vector": [],
+  "fitness_score": 0.0
+}
+
+# ------------------------------------------------------------
+# COMMANDS
+# ------------------------------------------------------------
+/eaos quantum plan <topic>  
+/eaos quantum explore  
+/eaos quantum branches  
+/eaos quantum merge  
+
+# ------------------------------------------------------------
+# END OF QUANTUM PLANNER SPEC

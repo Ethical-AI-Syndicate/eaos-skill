@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EAOS Reasoning Graph Schema",
+  "type": "object",
+  "properties": {
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": [
+              "decision",
+              "risk",
+              "strategy",
+              "feature",
+              "agent",
+              "dependency",
+              "market_force",
+              "financial_factor",
+              "compliance_control"
+            ]
+          },
+          "metadata": { "type": "object" }
+        },
+        "required": ["id", "type"]
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "from": { "type": "string" },
+          "to": { "type": "string" },
+          "relation": {
+            "type": "string",
+            "enum": [
+              "depends_on",
+              "influences",
+              "mitigates",
+              "amplifies",
+              "contradicts",
+              "enables",
+              "risk_of",
+              "causal_link"
+            ]
+          }
+        },
+        "required": ["from", "to", "relation"]
+      }
+    }
+  },
+  "required": ["nodes", "edges"]
+}

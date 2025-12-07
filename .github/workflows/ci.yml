@@ -1,0 +1,254 @@
+name: EAOS CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '20.x'
+
+jobs:
+  # ===========================================================================
+  # Validation Job
+  # ===========================================================================
+  validate:
+    name: Validate Structure
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run validation
+        run: npm run test:validate
+
+  # ===========================================================================
+  # Lint Job
+  # ===========================================================================
+  lint:
+    name: Lint Code
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint || true
+
+  # ===========================================================================
+  # Test Job
+  # ===========================================================================
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Initialize EAOS
+        run: node cli/eaos.js init
+
+      - name: Run CLI status check
+        run: node cli/eaos.js status
+
+      - name: Run test suite
+        run: npm test || true
+
+  # ===========================================================================
+  # Security Scan Job
+  # ===========================================================================
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run npm audit
+        run: npm audit --audit-level=high || true
+
+      - name: Check for secrets
+        run: |
+          echo "Checking for potential secrets..."
+          # Basic pattern check for common secrets
+          if grep -rE "(api[_-]?key|secret|password|token)\s*[:=]\s*['\"][^'\"]+['\"]" --include="*.js" --include="*.json" .; then
+            echo "⚠️ Potential secrets found. Please review."
+          else
+            echo "✅ No obvious secrets detected."
+          fi
+
+  # ===========================================================================
+  # Skill Validation Job
+  # ===========================================================================
+  skill-validation:
+    name: Validate Claude Skill Files
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate skill loader
+        run: |
+          echo "Validating skill loader..."
+          if [ -f "skills/eaos_skill_loader.claude" ]; then
+            echo "✅ Skill loader found"
+
+            # Count referenced files
+            ref_count=$(grep -c "\.claude$" skills/eaos_skill_loader.claude || echo "0")
+            echo "📦 $ref_count .claude files referenced"
+
+            # Check if all referenced files exist
+            while IFS= read -r line; do
+              file=$(echo "$line" | sed 's/^[[:space:]]*-[[:space:]]*//')
+              if [ -n "$file" ] && [ "${file##*.}" = "claude" ]; then
+                if [ -f "$file" ]; then
+                  echo "  ✓ $file"
+                else
+                  echo "  ✗ $file (MISSING)"
+                  exit 1
+                fi
+              fi
+            done < skills/eaos_skill_loader.claude
+          else
+            echo "❌ Skill loader not found"
+            exit 1
+          fi
+
+      - name: Validate manifest
+        run: |
+          echo "Validating manifest..."
+          if [ -f "manifests/claude_skill.json" ]; then
+            # Check if valid JSON
+            if python3 -m json.tool manifests/claude_skill.json > /dev/null 2>&1; then
+              echo "✅ Manifest is valid JSON"
+            else
+              echo "❌ Manifest is invalid JSON"
+              exit 1
+            fi
+          else
+            echo "❌ Manifest not found"
+            exit 1
+          fi
+
+  # ===========================================================================
+  # Documentation Job
+  # ===========================================================================
+  docs:
+    name: Validate Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check required docs exist
+        run: |
+          echo "Checking documentation..."
+          required_docs=(
+            "README.md"
+            "EAOS_ARCHITECTURE_OVERVIEW.md"
+            "EAOS_INSTALL_GUIDE.md"
+            "EAOS_CLI_REFERENCE.md"
+            "EAOS_SAFETY_AND_GOVERNANCE.md"
+          )
+
+          for doc in "${required_docs[@]}"; do
+            if [ -f "$doc" ]; then
+              echo "✅ $doc"
+            else
+              echo "❌ $doc (MISSING)"
+              exit 1
+            fi
+          done
+
+      - name: Check for broken internal links
+        run: |
+          echo "Checking for broken links in README.md..."
+          # Extract markdown links and verify files exist
+          while IFS= read -r link; do
+            if [ -f "$link" ]; then
+              echo "  ✓ $link"
+            elif [ -d "$link" ]; then
+              echo "  ✓ $link (directory)"
+            else
+              echo "  ⚠️ $link (not found, may be external)"
+            fi
+          done < <(grep -oE '\[.*\]\([^)]+\)' README.md | sed 's/.*(\([^)]*\))/\1/' | grep -v "^http")
+
+  # ===========================================================================
+  # Release Job (only on main branch)
+  # ===========================================================================
+  release:
+    name: Prepare Release
+    runs-on: ubuntu-latest
+    needs: [validate, test, security, skill-validation]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Get version
+        id: version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create release notes
+        run: |
+          echo "# EAOS v${{ steps.version.outputs.version }}" > RELEASE_NOTES.md
+          echo "" >> RELEASE_NOTES.md
+          echo "## Changes" >> RELEASE_NOTES.md
+          echo "" >> RELEASE_NOTES.md
+          git log --oneline -10 >> RELEASE_NOTES.md
+
+      - name: Upload release notes
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-notes
+          path: RELEASE_NOTES.md

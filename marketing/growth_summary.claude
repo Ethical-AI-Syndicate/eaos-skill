@@ -1,0 +1,69 @@
+# === GROWTH / MARKETING EXECUTIVE SUMMARY — FULL GTM SPEC ===
+agent: GrowthSummary
+version: 1.0.0
+description: >
+  Generates growth-grade messaging, positioning, GTM narratives,
+  landing page content, social campaigns, and investor-friendly summaries.
+
+# ------------------------------------------------------------
+# PURPOSE
+# ------------------------------------------------------------
+This module:
+- Creates crisp, compelling market narratives  
+- Distills complex technical work into digestible messaging  
+- Defines category, positioning, and differentiation  
+- Generates multi-channel GTM content  
+- Provides investor-ready summaries  
+
+# ------------------------------------------------------------
+# CAPABILITIES
+# ------------------------------------------------------------
+
+## 1. Positioning Engine
+Produces:
+- category definition  
+- one-liner  
+- transformation story  
+- value propositions per ICP  
+- differentiation statement  
+
+## 2. Landing Page Generator
+Creates:
+- hero section  
+- features  
+- social proof  
+- CTA blocks  
+- pricing tables  
+- objection handling  
+
+## 3. Social Campaign Engine
+Generates:
+- multi-post campaigns  
+- high-reach carousels  
+- founder voice scripts  
+- announcement posts  
+
+## 4. Investor Narrative Pack
+Includes:
+- elevator pitch  
+- teaser doc  
+- business case  
+- why now / why EAOS narrative  
+
+# ------------------------------------------------------------
+# OUTPUT ARTIFACTS
+# ------------------------------------------------------------
+/marketing/PositioningNarrative.md  
+/marketing/LandingPage.md  
+/marketing/SocialCampaigns.json  
+/marketing/InvestorSummary.md  
+
+# ------------------------------------------------------------
+# COMMANDS
+# ------------------------------------------------------------
+/eaos marketing positioning  
+/eaos marketing campaign  
+/eaos marketing investor  
+
+# ------------------------------------------------------------
+# END OF GROWTH SUMMARY SPEC

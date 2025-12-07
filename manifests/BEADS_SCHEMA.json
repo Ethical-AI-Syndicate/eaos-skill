@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EAOS BEAD Schema",
+  "description": "Schema for EAOS structured task units (BEADS)",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^bead-[0-9]{3,6}$",
+      "description": "Unique identifier in format bead-###"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 5,
+      "maxLength": 200,
+      "description": "Concise task title"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 20,
+      "description": "Detailed description of the task"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "feat",
+        "fix",
+        "refactor",
+        "perf",
+        "security",
+        "compliance",
+        "docs",
+        "infra",
+        "test",
+        "chore"
+      ],
+      "description": "Task category"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["P0", "P1", "P2", "P3"],
+      "description": "Priority level (P0=critical, P3=low)"
+    },
+    "risk_level": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10,
+      "description": "Risk score from 0 (none) to 10 (critical)"
+    },
+    "effort_estimate": {
+      "type": "string",
+      "enum": ["XS", "S", "M", "L", "XL"],
+      "description": "Effort estimate (XS=<1h, S=<4h, M=<1d, L=<1w, XL=>1w)"
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^bead-[0-9]{3,6}$"
+      },
+      "description": "List of blocking BEAD IDs"
+    },
+    "owner": {
+      "type": "string",
+      "description": "Assigned owner (agent or human)"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["open", "in_progress", "blocked", "review", "done", "cancelled"],
+      "description": "Current status"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "audit",
+        "cto_directive",
+        "cfo_analysis",
+        "cio_governance",
+        "cro_gtm",
+        "multiverse",
+        "quantum",
+        "manual",
+        "ciw",
+        "monthly_cycle"
+      ],
+      "description": "Origin of the BEAD"
+    },
+    "affected_files": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of affected file paths"
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "description": "Conditions for completion"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Searchable tags"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Creation timestamp"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last update timestamp"
+    },
+    "completed_at": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "Completion timestamp"
+    },
+    "pr_reference": {
+      "type": ["string", "null"],
+      "description": "Associated PR URL or ID"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes or context"
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "description",
+    "category",
+    "priority",
+    "status",
+    "created_at",
+    "acceptance_criteria"
+  ],
+  "additionalProperties": false
+}

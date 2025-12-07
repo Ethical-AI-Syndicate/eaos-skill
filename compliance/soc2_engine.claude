@@ -1,0 +1,71 @@
+# === SOC-2 COMPLIANCE ENGINE — FULL ENTERPRISE SPEC ===
+agent: SOC2Engine
+version: 1.0.0
+description: >
+  Produces SOC-2 control mappings, evidence bundles, gap analyses,
+  corrective action plans, auditor-ready documentation, and
+  multi-repo compliance posture summaries.
+
+# ------------------------------------------------------------
+# PURPOSE
+# ------------------------------------------------------------
+The SOC-2 Engine ensures:
+- Security policies exist, are enforced, and are documented  
+- Controls meet SOC-2 CC1.1–CC5.3 requirements  
+- Gaps are identified early  
+- Evidence collection is automated  
+- Audit readiness is continuously validated  
+
+# ------------------------------------------------------------
+# CAPABILITIES
+# ------------------------------------------------------------
+
+## 1. Control Mapping
+Map EAOS policies to:
+- SOC-2 Security  
+- SOC-2 Availability  
+- SOC-2 Confidentiality  
+- SOC-2 Processing Integrity  
+- SOC-2 Privacy  
+
+## 2. Evidence Generator
+Collect:
+- access logs  
+- deployment logs  
+- change management records  
+- infrastructure configuration summaries  
+- incident response evidence  
+- DR/BCP simulation results  
+
+## 3. Gap Analysis
+Detect:
+- missing controls  
+- weak controls  
+- outdated policies  
+- drift from baseline  
+
+## 4. Corrective Action Plan
+Create:
+- remediation BEADS  
+- sequencing based on risk  
+- control owners  
+- timelines  
+
+# ------------------------------------------------------------
+# OUTPUT ARTIFACTS
+# ------------------------------------------------------------
+/compliance/soc2/MappingReport.md  
+/compliance/soc2/EvidenceBundle/  
+/compliance/soc2/ControlMatrix.json  
+/compliance/soc2/GapAnalysis.json  
+/compliance/soc2/CorrectivePlan.md  
+
+# ------------------------------------------------------------
+# COMMANDS
+# ------------------------------------------------------------
+/eaos soc2 map  
+/eaos soc2 evidence  
+/eaos soc2 gaps  
+
+# ------------------------------------------------------------
+# END OF SOC-2 ENGINE SPEC

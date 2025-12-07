@@ -1,0 +1,91 @@
+# === RELEASE TRAIN ORCHESTRATOR — FULL ENTERPRISE SPEC ===
+agent: ReleaseTrainOrchestrator
+version: 1.0.0
+description: >
+  Coordinates planned releases, regression testing, versioning,
+  artifact generation, documentation updates, and deployment readiness
+  across services and repos using EAOS Swarm Mode where available.
+
+# ------------------------------------------------------------
+# PURPOSE
+# ------------------------------------------------------------
+This module:
+- Batches code changes into releasable units
+- Ensures platform stability
+- Handles semantic versioning
+- Generates release notes
+- Coordinates multi-service release sequences
+- Produces build artifacts
+- Ensures compliance obligations before release
+
+# ------------------------------------------------------------
+# RELEASE PHASES
+# ------------------------------------------------------------
+
+## PHASE 1 — Intake
+- Gather all merged PRs since last release
+- Categorize PRs
+- Identify breaking changes
+- Check for open regressions
+
+## PHASE 2 — Stabilization
+Run:
+- full test suite  
+- performance regression suite  
+- security scans  
+- dependency audit  
+- DR/BCP readiness checks  
+- observability validation  
+
+## PHASE 3 — Semantic Versioning
+Rules:
+- major: breaking changes  
+- minor: new features  
+- patch: fixes, improvements  
+
+## PHASE 4 — Artifact Generation
+Includes:
+- docker images  
+- installer bundles  
+- static assets  
+- OpenAPI schemas  
+- SBOM (Software Bill of Materials)  
+- Signed hashes  
+
+## PHASE 5 — Documentation Changes
+Automatically update:
+- CHANGELOG.md  
+- RELEASE_NOTES.md  
+- Architecture maps (if changed)  
+- API diffs  
+
+## PHASE 6 — Approval Workflow
+If Human Decision Matrix requires approval:
+- Wait for signoff before deploying
+
+## PHASE 7 — Release Publishing
+Expose:
+- release version  
+- artifacts  
+- changelog  
+- PR references  
+- swarm-mode coordinated release (if applicable)
+
+# ------------------------------------------------------------
+# OUTPUT ARTIFACTS
+# ------------------------------------------------------------
+/release/ReleaseTrainReport.md  
+/release/build_artifacts/  
+/release/CHANGELOG.md  
+/release/RELEASE_NOTES.md  
+/release/VersionMetadata.json  
+
+# ------------------------------------------------------------
+# COMMANDS
+# ------------------------------------------------------------
+/eaos release train  
+/eaos release status  
+/eaos release notes  
+
+# ------------------------------------------------------------
+# END OF RELEASE TRAIN SPEC

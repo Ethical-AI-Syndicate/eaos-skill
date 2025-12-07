@@ -1,0 +1,338 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EAOS Command Registry",
+  "description": "Unified registry of all EAOS commands",
+  "version": "1.0.0",
+  "commands": {
+    "system": {
+      "/eaos status": {
+        "description": "Show system status and health",
+        "module": "master_orchestrator",
+        "approval_level": 0
+      },
+      "/eaos boot": {
+        "description": "Execute boot sequence",
+        "module": "boot_sequence",
+        "approval_level": 1
+      },
+      "/eaos help": {
+        "description": "Show available commands",
+        "module": "cli",
+        "approval_level": 0
+      }
+    },
+    "audit": {
+      "/eaos audit full": {
+        "description": "Run complete audit pipeline",
+        "module": "audit_pipeline",
+        "approval_level": 0
+      },
+      "/eaos audit quick": {
+        "description": "Run abbreviated audit",
+        "module": "audit_pipeline",
+        "approval_level": 0
+      },
+      "/eaos audit security": {
+        "description": "Security-focused audit",
+        "module": "audit_pipeline",
+        "approval_level": 0
+      },
+      "/eaos audit performance": {
+        "description": "Performance audit",
+        "module": "audit_pipeline",
+        "approval_level": 0
+      },
+      "/eaos audit observability": {
+        "description": "Observability audit",
+        "module": "audit_pipeline",
+        "approval_level": 0
+      }
+    },
+    "simulation": {
+      "/eaos simulate <scenario>": {
+        "description": "Run sandbox simulation",
+        "module": "sandbox_mode",
+        "approval_level": 0
+      },
+      "/eaos multiverse simulate <scenario>": {
+        "description": "Run multiverse simulation",
+        "module": "multiverse_engine",
+        "approval_level": 0
+      },
+      "/eaos multiverse compare": {
+        "description": "Compare universe outcomes",
+        "module": "multiverse_engine",
+        "approval_level": 0
+      },
+      "/eaos multiverse best": {
+        "description": "Show best path recommendation",
+        "module": "multiverse_engine",
+        "approval_level": 0
+      },
+      "/eaos quantum plan <topic>": {
+        "description": "Run quantum planning",
+        "module": "quantum_planner",
+        "approval_level": 0
+      },
+      "/eaos quantum branches": {
+        "description": "Show quantum branches",
+        "module": "quantum_planner",
+        "approval_level": 0
+      },
+      "/eaos quantum merge": {
+        "description": "Merge quantum branches",
+        "module": "quantum_planner",
+        "approval_level": 0
+      }
+    },
+    "autonomy": {
+      "/eaos autonomy on": {
+        "description": "Enable autonomy mode",
+        "module": "autonomy_mode",
+        "approval_level": 3
+      },
+      "/eaos autonomy off": {
+        "description": "Disable autonomy mode",
+        "module": "autonomy_mode",
+        "approval_level": 1
+      },
+      "/eaos autonomy status": {
+        "description": "Show autonomy status",
+        "module": "autonomy_mode",
+        "approval_level": 0
+      },
+      "/eaos autonomy logs": {
+        "description": "Show autonomy logs",
+        "module": "autonomy_mode",
+        "approval_level": 0
+      }
+    },
+    "pr": {
+      "/eaos pr generate": {
+        "description": "Generate PR from BEADS",
+        "module": "pr_bot",
+        "approval_level": 2
+      },
+      "/eaos pr validate": {
+        "description": "Validate PR readiness",
+        "module": "pr_bot",
+        "approval_level": 0
+      },
+      "/eaos pr summarize": {
+        "description": "Generate PR summary",
+        "module": "pr_bot",
+        "approval_level": 0
+      }
+    },
+    "release": {
+      "/eaos release train": {
+        "description": "Execute release train",
+        "module": "release_train",
+        "approval_level": 4
+      },
+      "/eaos release status": {
+        "description": "Show release status",
+        "module": "release_train",
+        "approval_level": 0
+      },
+      "/eaos release notes": {
+        "description": "Generate release notes",
+        "module": "release_train",
+        "approval_level": 0
+      }
+    },
+    "beads": {
+      "/eaos beads list": {
+        "description": "List all BEADS",
+        "module": "beads_manager",
+        "approval_level": 0
+      },
+      "/eaos beads create": {
+        "description": "Create new BEAD",
+        "module": "beads_manager",
+        "approval_level": 1
+      },
+      "/eaos beads prioritize": {
+        "description": "Prioritize BEADS",
+        "module": "beads_manager",
+        "approval_level": 0
+      },
+      "/eaos beads graph": {
+        "description": "Show dependency graph",
+        "module": "beads_manager",
+        "approval_level": 0
+      }
+    },
+    "compliance": {
+      "/eaos soc2 map": {
+        "description": "Map SOC-2 controls",
+        "module": "soc2_engine",
+        "approval_level": 0
+      },
+      "/eaos soc2 gaps": {
+        "description": "Show SOC-2 gaps",
+        "module": "soc2_engine",
+        "approval_level": 0
+      },
+      "/eaos soc2 evidence": {
+        "description": "Collect SOC-2 evidence",
+        "module": "soc2_engine",
+        "approval_level": 0
+      },
+      "/eaos iso27001 map": {
+        "description": "Map ISO 27001 controls",
+        "module": "iso27001_engine",
+        "approval_level": 0
+      },
+      "/eaos iso27001 soa": {
+        "description": "Generate Statement of Applicability",
+        "module": "iso27001_engine",
+        "approval_level": 0
+      },
+      "/eaos nist map": {
+        "description": "Map NIST controls",
+        "module": "nist_engine",
+        "approval_level": 0
+      },
+      "/eaos nist poam": {
+        "description": "Generate POA&M",
+        "module": "nist_engine",
+        "approval_level": 0
+      }
+    },
+    "governance": {
+      "/eaos approve <id>": {
+        "description": "Approve pending decision",
+        "module": "human_decision_matrix",
+        "approval_level": 0
+      },
+      "/eaos reject <id>": {
+        "description": "Reject pending decision",
+        "module": "human_decision_matrix",
+        "approval_level": 0
+      },
+      "/eaos decisions pending": {
+        "description": "Show pending decisions",
+        "module": "human_decision_matrix",
+        "approval_level": 0
+      }
+    },
+    "executive": {
+      "/eaos cxodashboard": {
+        "description": "Generate CxO dashboard",
+        "module": "cxo_dashboard",
+        "approval_level": 0
+      },
+      "/eaos board pack": {
+        "description": "Generate board pack",
+        "module": "board_pack",
+        "approval_level": 0
+      },
+      "/eaos memory summary": {
+        "description": "Show memory kernel summary",
+        "module": "memory_kernel",
+        "approval_level": 0
+      }
+    },
+    "finance": {
+      "/eaos costs analyze": {
+        "description": "Analyze costs",
+        "module": "finops_engine",
+        "approval_level": 0
+      },
+      "/eaos costs optimize": {
+        "description": "Generate optimization plan",
+        "module": "finops_engine",
+        "approval_level": 0
+      },
+      "/eaos costs forecast": {
+        "description": "Forecast costs",
+        "module": "finops_engine",
+        "approval_level": 0
+      },
+      "/eaos pricing model": {
+        "description": "Generate pricing model",
+        "module": "cfo_agent",
+        "approval_level": 0
+      }
+    },
+    "gtm": {
+      "/eaos demo <persona>": {
+        "description": "Generate demo script",
+        "module": "sales_engineer",
+        "approval_level": 0
+      },
+      "/eaos solutions <icp>": {
+        "description": "Generate solutions brief",
+        "module": "sales_engineer",
+        "approval_level": 0
+      },
+      "/eaos marketing positioning": {
+        "description": "Generate positioning narrative",
+        "module": "growth_summary",
+        "approval_level": 0
+      },
+      "/eaos marketing campaign": {
+        "description": "Generate marketing campaign",
+        "module": "growth_summary",
+        "approval_level": 0
+      }
+    },
+    "swarm": {
+      "/eaos swarm join <repo>": {
+        "description": "Join swarm network",
+        "module": "swarm_mode",
+        "approval_level": 2
+      },
+      "/eaos swarm status": {
+        "description": "Show swarm status",
+        "module": "swarm_mode",
+        "approval_level": 0
+      },
+      "/eaos swarm sync": {
+        "description": "Sync with swarm",
+        "module": "swarm_mode",
+        "approval_level": 1
+      },
+      "/eaos swarm global dashboard": {
+        "description": "Show global dashboard",
+        "module": "swarm_mode",
+        "approval_level": 0
+      }
+    },
+    "cycles": {
+      "/eaos ciw run": {
+        "description": "Run CIW cycle",
+        "module": "ciw_agent",
+        "approval_level": 0
+      },
+      "/eaos monthly run": {
+        "description": "Run monthly cycle",
+        "module": "self_healing_monthly",
+        "approval_level": 1
+      },
+      "/eaos monthly summary": {
+        "description": "Show monthly summary",
+        "module": "self_healing_monthly",
+        "approval_level": 0
+      }
+    },
+    "test": {
+      "/eaos test all": {
+        "description": "Run all tests",
+        "module": "test_suite",
+        "approval_level": 0
+      },
+      "/eaos test governance": {
+        "description": "Test governance systems",
+        "module": "test_suite",
+        "approval_level": 0
+      },
+      "/eaos test compliance": {
+        "description": "Test compliance engines",
+        "module": "test_suite",
+        "approval_level": 0
+      }
+    }
+  }
+}

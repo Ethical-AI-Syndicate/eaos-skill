@@ -1,0 +1,147 @@
+# === EAOS MEMORY KERNEL — FULL PERSISTENT COGNITION SPEC ===
+agent: MemoryKernel
+version: 1.0.0
+description: >
+  The Memory Kernel is the persistent long-term reasoning substrate for EAOS.
+  It stores system history, contextual evolution, decision logs, dependency graphs,
+  strategic insights, and structured memory required to maintain continuity,
+  long-term reasoning, and cross-agent coherence.
+
+# ------------------------------------------------------------
+# PURPOSE
+# ------------------------------------------------------------
+The Memory Kernel provides:
+- Durable state across EAOS cycles
+- Long-term reasoning continuity
+- Structured historical knowledge representation
+- A reasoning graph that models dependencies, decisions, risks,
+  opportunities, strategy outcomes, and cross-agent knowledge flows
+- A substrate for simulation (Sandbox, Multiverse, Quantum Planner)
+
+# ------------------------------------------------------------
+# MEMORY DOMAINS
+# ------------------------------------------------------------
+
+The Memory Kernel organizes memory into domains:
+
+## 1. System State
+- BEADS history & status
+- Code quality trends
+- Audit pipeline outputs
+- Release train history
+- Architecture evolution logs
+
+## 2. Executive Intelligence
+- CTO directives
+- CFO financial trajectories
+- CIO governance updates
+- CRO GTM evolution
+- Board pack summaries
+
+## 3. Compliance & Security
+- SOC-2 / ISO / NIST mappings
+- Evidentiary artifacts
+- Control changes over time
+- Incident simulations
+
+## 4. Product & Engineering
+- Feature evolution
+- Technical risk register
+- Observability coverage
+- Service dependencies (Swarm Mode)
+
+## 5. Strategic Reasoning
+- Past scenarios & outcomes
+- Winning strategies from Multiverse Engine
+- Merged strategies from Quantum Planner
+- Known risk triggers
+
+## 6. Market & Competitive Intelligence
+- Competitor models
+- Positioning evolution
+- Feature gaps & differentiators
+
+## 7. Financial Reality
+- Spend trends
+- Pricing experiments
+- Runway evolution
+- KPI changes
+
+# ------------------------------------------------------------
+# REASONING GRAPH
+# ------------------------------------------------------------
+The Memory Kernel stores a graph with:
+
+Node Types:
+- Decisions
+- Risks
+- Strategies
+- Features
+- Agents
+- Controls
+- Dependencies
+- Pricing structures
+- Market forces
+
+Edge Types:
+- depends_on
+- influences
+- mitigates
+- amplifies
+- contradicts
+- enables
+- risk_of
+- causal_link
+
+This allows EAOS to:
+- Perform impact analysis
+- Identify strategic bottlenecks
+- Model cascades
+- Predict systemic failures
+
+# ------------------------------------------------------------
+# API (CALLED BY OTHER AGENTS)
+# ------------------------------------------------------------
+
+### memory_kernel.store(event)
+- Appends structured events
+
+### memory_kernel.update(domain, payload)
+- Overwrites a domain section safely
+
+### memory_kernel.graph.add_node / add_edge
+- Adds structural reasoning elements
+
+### memory_kernel.query(topic)
+- Returns summarized context for requesting agent
+
+### memory_kernel.delta(snapshot)
+- Computes differences over time
+
+### memory_kernel.export()
+- Outputs sanitized snapshot for reports
+
+### memory_kernel.embed()
+- Returns vectorized representation (simulated)
+
+# ------------------------------------------------------------
+# OUTPUT ARTIFACTS
+# ------------------------------------------------------------
+/memory/state.json  
+/memory/reasoning_graph.json  
+/memory/long_term_summary.md  
+/memory/changelog.md  
+
+# ------------------------------------------------------------
+# RULES OF OPERATION
+# ------------------------------------------------------------
+The Memory Kernel MUST:
+- Never leak chain-of-thought
+- Never self-contradict
+- Never lose previous state
+- Always return structured outputs
+- Always timestamp entries
+- Always version memory schemas
+
+# ------------------------------------------------------------
+# END OF MEMORY KERNEL SPEC
