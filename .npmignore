@@ -1,0 +1,47 @@
+# Development files
+.github/
+.husky/
+tests/
+.eslintrc.json
+.prettierrc
+.eaos.config.json
+
+# Runtime directories (created on install)
+memory/
+logs/
+audit/
+beads/
+release/
+monthly/
+metrics/
+
+# Documentation (keep in repo, not in package)
+EAOS_*.md
+AUDIT_REPORT.md
+CONTRIBUTING.md
+
+# Policy/Template packs (optional extras)
+EAOS_COMPLIANCE_AUTOMATION_PACK/
+EAOS_MONOREPO_TEMPLATE/
+EAOS_PLAYBOOKS/
+EAOS_POLICY_PACK/
+EAOS_SERVICE_BLUEPRINTS/
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+*.log
+node_modules/
+coverage/
