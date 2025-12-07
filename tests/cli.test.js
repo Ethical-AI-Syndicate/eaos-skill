@@ -44,7 +44,7 @@ describe('EAOS CLI', () => {
   test('should show version', () => {
     const result = runCli('--version');
     assert.ok(result.success, 'Version command should succeed');
-    assert.match(result.output.trim(), /^\d+\.\d+\.\d+$/, 'Should show valid version');
+    assert.match(result.output.trim(), /^\d+\.\d+\.\d+(-[a-zA-Z0-9.]+)?$/, 'Should show valid version');
   });
 
   test('init command should create required files', () => {

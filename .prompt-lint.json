@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "EAOS Prompt Linter Configuration",
+  "version": "1.0.0",
+  "rules": {
+    "require-header": {
+      "enabled": true,
+      "severity": "error",
+      "description": "All .claude files must have a header with title"
+    },
+    "require-purpose": {
+      "enabled": true,
+      "severity": "error",
+      "description": "All agents must define their purpose"
+    },
+    "require-output-schema": {
+      "enabled": true,
+      "severity": "warning",
+      "description": "Agents should define output schema"
+    },
+    "require-safety-constraints": {
+      "enabled": true,
+      "severity": "error",
+      "description": "Agents must define safety constraints"
+    },
+    "max-prompt-length": {
+      "enabled": true,
+      "severity": "warning",
+      "maxLines": 500,
+      "description": "Prompts should not exceed 500 lines"
+    },
+    "no-hardcoded-secrets": {
+      "enabled": true,
+      "severity": "error",
+      "patterns": [
+        "api[_-]?key\\s*[=:]\\s*['\"][^'\"]+['\"]",
+        "password\\s*[=:]\\s*['\"][^'\"]+['\"]",
+        "secret\\s*[=:]\\s*['\"][^'\"]+['\"]",
+        "token\\s*[=:]\\s*['\"][^'\"]+['\"]"
+      ],
+      "description": "No hardcoded secrets allowed"
+    },
+    "no-dangerous-commands": {
+      "enabled": true,
+      "severity": "error",
+      "patterns": [
+        "rm\\s+-rf\\s+/",
+        "sudo\\s+rm",
+        "DROP\\s+DATABASE",
+        "DELETE\\s+FROM.*WHERE\\s+1\\s*=\\s*1"
+      ],
+      "description": "No dangerous system commands"
+    },
+    "require-approval-levels": {
+      "enabled": true,
+      "severity": "warning",
+      "description": "Critical operations should specify approval level"
+    }
+  },
+  "filePatterns": {
+    "agents": "agents/**/*.claude",
+    "core": "core/**/*.claude",
+    "modules": "modules/**/*.claude",
+    "compliance": "compliance/**/*.claude",
+    "skills": "skills/**/*.claude"
+  },
+  "requiredSections": {
+    "agents": ["Purpose", "Input", "Output", "Safety"],
+    "core": ["Purpose", "Interface"],
+    "modules": ["Purpose", "Triggers"],
+    "compliance": ["Framework", "Controls"]
+  },
+  "ignorePaths": [
+    "node_modules/",
+    "memory/",
+    "logs/",
+    "audit/"
+  ]
+}

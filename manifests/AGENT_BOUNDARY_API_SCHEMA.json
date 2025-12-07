@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eaos.dev/schemas/agent-boundary-api.json",
+  "title": "EAOS Agent Boundary API Schema",
+  "description": "Defines the communication interface between agents",
+  "definitions": {
+    "agentId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*$",
+      "examples": ["master_orchestrator", "autonomous_cto", "cfo_agent"]
+    },
+    "messageId": {
+      "type": "string",
+      "pattern": "^msg-[a-f0-9]{16}$"
+    },
+    "correlationId": {
+      "type": "string",
+      "pattern": "^corr-[a-f0-9]{16}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["low", "normal", "high", "critical"]
+    },
+    "approvalLevel": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "L1=Auto, L2=Notify, L3=Approve, L4=Escalate, L5=Board"
+    }
+  },
+  "type": "object",
+  "properties": {
+    "message": {
+      "type": "object",
+      "description": "Inter-agent message format",
+      "required": ["id", "from", "to", "type", "payload", "timestamp"],
+      "properties": {
+        "id": { "$ref": "#/definitions/messageId" },
+        "correlationId": { "$ref": "#/definitions/correlationId" },
+        "from": { "$ref": "#/definitions/agentId" },
+        "to": {
+          "oneOf": [
+            { "$ref": "#/definitions/agentId" },
+            { "type": "array", "items": { "$ref": "#/definitions/agentId" } }
+          ]
+        },
+        "type": {
+          "type": "string",
+          "enum": ["request", "response", "event", "command", "query", "notification"]
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "action": { "type": "string" },
+            "data": { "type": "object" },
+            "context": { "type": "object" }
+          }
+        },
+        "timestamp": { "$ref": "#/definitions/timestamp" },
+        "priority": { "$ref": "#/definitions/priority" },
+        "ttl": {
+          "type": "integer",
+          "description": "Time to live in seconds"
+        },
+        "replyTo": { "$ref": "#/definitions/messageId" },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "traceId": { "type": "string" },
+            "spanId": { "type": "string" },
+            "source": { "type": "string" },
+            "version": { "type": "string" }
+          }
+        }
+      }
+    },
+    "request": {
+      "type": "object",
+      "description": "Agent request format",
+      "required": ["action", "requiredApproval"],
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "Action to perform"
+        },
+        "parameters": {
+          "type": "object",
+          "description": "Action parameters"
+        },
+        "requiredApproval": {
+          "$ref": "#/definitions/approvalLevel"
+        },
+        "timeout": {
+          "type": "integer",
+          "description": "Request timeout in milliseconds"
+        },
+        "retryPolicy": {
+          "type": "object",
+          "properties": {
+            "maxRetries": { "type": "integer" },
+            "backoffMs": { "type": "integer" }
+          }
+        }
+      }
+    },
+    "response": {
+      "type": "object",
+      "description": "Agent response format",
+      "required": ["status", "data"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["success", "error", "pending", "rejected", "timeout"]
+        },
+        "data": {
+          "type": "object"
+        },
+        "error": {
+          "type": "object",
+          "properties": {
+            "code": { "type": "string" },
+            "message": { "type": "string" },
+            "details": { "type": "object" }
+          }
+        },
+        "approvalStatus": {
+          "type": "object",
+          "properties": {
+            "level": { "$ref": "#/definitions/approvalLevel" },
+            "approved": { "type": "boolean" },
+            "approver": { "type": "string" },
+            "timestamp": { "$ref": "#/definitions/timestamp" }
+          }
+        },
+        "executionTime": {
+          "type": "integer",
+          "description": "Execution time in milliseconds"
+        }
+      }
+    },
+    "agentCapabilities": {
+      "type": "object",
+      "description": "Agent capability declaration",
+      "required": ["agentId", "name", "capabilities"],
+      "properties": {
+        "agentId": { "$ref": "#/definitions/agentId" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "inputSchema", "outputSchema"],
+            "properties": {
+              "name": { "type": "string" },
+              "description": { "type": "string" },
+              "inputSchema": { "type": "object" },
+              "outputSchema": { "type": "object" },
+              "requiredApproval": { "$ref": "#/definitions/approvalLevel" },
+              "sideEffects": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          }
+        },
+        "dependencies": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/agentId" }
+        },
+        "boundaries": {
+          "type": "object",
+          "properties": {
+            "maxConcurrentRequests": { "type": "integer" },
+            "rateLimit": {
+              "type": "object",
+              "properties": {
+                "requests": { "type": "integer" },
+                "windowMs": { "type": "integer" }
+              }
+            },
+            "allowedCallers": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/agentId" }
+            },
+            "blockedCallers": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/agentId" }
+            }
+          }
+        }
+      }
+    },
+    "routingTable": {
+      "type": "object",
+      "description": "Message routing configuration",
+      "properties": {
+        "routes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["pattern", "target"],
+            "properties": {
+              "pattern": {
+                "type": "object",
+                "properties": {
+                  "action": { "type": "string" },
+                  "from": { "$ref": "#/definitions/agentId" },
+                  "priority": { "$ref": "#/definitions/priority" }
+                }
+              },
+              "target": { "$ref": "#/definitions/agentId" },
+              "fallback": { "$ref": "#/definitions/agentId" },
+              "loadBalancing": {
+                "type": "string",
+                "enum": ["round-robin", "least-connections", "random"]
+              }
+            }
+          }
+        },
+        "deadLetterQueue": { "$ref": "#/definitions/agentId" }
+      }
+    }
+  }
+}

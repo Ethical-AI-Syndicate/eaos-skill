@@ -1,0 +1,32 @@
+# EAOS Code Owners
+# These owners will be requested for review on PRs that modify matching paths
+
+# Default owners for everything
+* @Ethical-AI-Syndicate/core-maintainers
+
+# Core intelligence layer - requires senior review
+/core/ @Ethical-AI-Syndicate/core-maintainers @Ethical-AI-Syndicate/security
+
+# Strategic agents - requires architecture review
+/agents/ @Ethical-AI-Syndicate/core-maintainers
+
+# Compliance engines - requires compliance team review
+/compliance/ @Ethical-AI-Syndicate/compliance @Ethical-AI-Syndicate/security
+
+# CLI and scripts
+/cli/ @Ethical-AI-Syndicate/core-maintainers
+/scripts/ @Ethical-AI-Syndicate/core-maintainers
+
+# CI/CD and workflows
+/.github/ @Ethical-AI-Syndicate/devops @Ethical-AI-Syndicate/core-maintainers
+
+# Security-sensitive files
+SECURITY.md @Ethical-AI-Syndicate/security
+/manifests/ @Ethical-AI-Syndicate/core-maintainers @Ethical-AI-Syndicate/security
+
+# Documentation
+/docs/ @Ethical-AI-Syndicate/docs
+*.md @Ethical-AI-Syndicate/docs
+
+# Tests
+/tests/ @Ethical-AI-Syndicate/core-maintainers

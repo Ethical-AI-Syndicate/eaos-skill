@@ -1,0 +1,220 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eaos.dev/schemas/memory-kernel-api.json",
+  "title": "EAOS Memory Kernel API Schema",
+  "description": "Defines the API interface for the Memory Kernel",
+  "definitions": {
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "nodeId": {
+      "type": "string",
+      "pattern": "^node-[a-f0-9]{8}$"
+    },
+    "edgeId": {
+      "type": "string",
+      "pattern": "^edge-[a-f0-9]{8}$"
+    }
+  },
+  "type": "object",
+  "properties": {
+    "state": {
+      "type": "object",
+      "description": "Memory Kernel State Schema",
+      "required": ["version", "initialized_at", "autonomy_enabled"],
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "State format version"
+        },
+        "initialized_at": {
+          "$ref": "#/definitions/timestamp"
+        },
+        "last_updated": {
+          "$ref": "#/definitions/timestamp"
+        },
+        "boot_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "autonomy_enabled": {
+          "type": "boolean"
+        },
+        "active_agents": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "session_context": {
+          "type": "object",
+          "properties": {
+            "current_task": { "type": "string" },
+            "task_stack": { "type": "array", "items": { "type": "string" } },
+            "variables": { "type": "object" }
+          }
+        }
+      }
+    },
+    "reasoningGraph": {
+      "type": "object",
+      "description": "Reasoning Graph Schema",
+      "required": ["version", "nodes", "edges"],
+      "properties": {
+        "version": {
+          "type": "string"
+        },
+        "created_at": {
+          "$ref": "#/definitions/timestamp"
+        },
+        "updated_at": {
+          "$ref": "#/definitions/timestamp"
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "type", "content"],
+            "properties": {
+              "id": { "$ref": "#/definitions/nodeId" },
+              "type": {
+                "type": "string",
+                "enum": ["fact", "decision", "observation", "hypothesis", "action", "outcome"]
+              },
+              "content": { "type": "string" },
+              "confidence": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "source": { "type": "string" },
+              "timestamp": { "$ref": "#/definitions/timestamp" },
+              "metadata": { "type": "object" }
+            }
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "source", "target", "relation"],
+            "properties": {
+              "id": { "$ref": "#/definitions/edgeId" },
+              "source": { "$ref": "#/definitions/nodeId" },
+              "target": { "$ref": "#/definitions/nodeId" },
+              "relation": {
+                "type": "string",
+                "enum": ["causes", "supports", "contradicts", "precedes", "follows", "requires", "produces"]
+              },
+              "weight": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "metadata": { "type": "object" }
+            }
+          }
+        }
+      }
+    },
+    "operations": {
+      "type": "object",
+      "description": "Memory Kernel Operations",
+      "properties": {
+        "read": {
+          "type": "object",
+          "properties": {
+            "getState": {
+              "description": "Get current memory state",
+              "input": { "type": "null" },
+              "output": { "$ref": "#/properties/state" }
+            },
+            "getNode": {
+              "description": "Get a specific node from reasoning graph",
+              "input": {
+                "type": "object",
+                "properties": { "nodeId": { "$ref": "#/definitions/nodeId" } }
+              },
+              "output": { "$ref": "#/properties/reasoningGraph/properties/nodes/items" }
+            },
+            "queryNodes": {
+              "description": "Query nodes by type or content",
+              "input": {
+                "type": "object",
+                "properties": {
+                  "type": { "type": "string" },
+                  "contentPattern": { "type": "string" },
+                  "limit": { "type": "integer" }
+                }
+              },
+              "output": {
+                "type": "array",
+                "items": { "$ref": "#/properties/reasoningGraph/properties/nodes/items" }
+              }
+            },
+            "getConnections": {
+              "description": "Get edges connected to a node",
+              "input": {
+                "type": "object",
+                "properties": {
+                  "nodeId": { "$ref": "#/definitions/nodeId" },
+                  "direction": { "type": "string", "enum": ["in", "out", "both"] }
+                }
+              },
+              "output": {
+                "type": "array",
+                "items": { "$ref": "#/properties/reasoningGraph/properties/edges/items" }
+              }
+            }
+          }
+        },
+        "write": {
+          "type": "object",
+          "properties": {
+            "addNode": {
+              "description": "Add a new node to reasoning graph",
+              "input": { "$ref": "#/properties/reasoningGraph/properties/nodes/items" },
+              "output": { "$ref": "#/definitions/nodeId" },
+              "approvalLevel": 1
+            },
+            "addEdge": {
+              "description": "Add a new edge between nodes",
+              "input": { "$ref": "#/properties/reasoningGraph/properties/edges/items" },
+              "output": { "$ref": "#/definitions/edgeId" },
+              "approvalLevel": 1
+            },
+            "updateNode": {
+              "description": "Update an existing node",
+              "input": {
+                "type": "object",
+                "properties": {
+                  "nodeId": { "$ref": "#/definitions/nodeId" },
+                  "updates": { "type": "object" }
+                }
+              },
+              "output": { "type": "boolean" },
+              "approvalLevel": 2
+            },
+            "deleteNode": {
+              "description": "Delete a node and its edges",
+              "input": { "type": "object", "properties": { "nodeId": { "$ref": "#/definitions/nodeId" } } },
+              "output": { "type": "boolean" },
+              "approvalLevel": 3
+            },
+            "setAutonomy": {
+              "description": "Enable or disable autonomy mode",
+              "input": { "type": "object", "properties": { "enabled": { "type": "boolean" } } },
+              "output": { "type": "boolean" },
+              "approvalLevel": 4
+            },
+            "clearGraph": {
+              "description": "Clear entire reasoning graph",
+              "input": { "type": "null" },
+              "output": { "type": "boolean" },
+              "approvalLevel": 5
+            }
+          }
+        }
+      }
+    }
+  }
+}

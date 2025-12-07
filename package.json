@@ -36,10 +36,12 @@
     "test:integration": "node --test tests/integration.test.js",
     "test:all": "node --test tests/*.test.js",
     "test:validate": "node scripts/validate.js",
-    "lint": "eslint cli/ scripts/",
+    "lint": "eslint cli/ scripts/ core/",
+    "lint:prompts": "node scripts/lint-prompts.js",
+    "lint:all": "npm run lint && npm run lint:prompts",
     "format": "prettier --write .",
     "prepare": "husky install",
-    "precommit": "npm run test:validate && npm run lint"
+    "precommit": "npm run test:validate && npm run lint:all"
   },
   "keywords": [
     "claude-code",

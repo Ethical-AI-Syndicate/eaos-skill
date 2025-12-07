@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eaos.dev/schemas/skill-contract.json",
+  "title": "EAOS Skill Contract Schema",
+  "description": "Defines the contract interface for EAOS skills",
+  "type": "object",
+  "required": ["name", "version", "description", "entrypoint", "capabilities"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Unique skill identifier",
+      "pattern": "^[a-z][a-z0-9_-]*$",
+      "examples": ["memory_kernel", "autonomous_cto"]
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(-[a-zA-Z0-9.]+)?$",
+      "examples": ["1.0.0", "1.0.0-beta.1"]
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description",
+      "minLength": 10,
+      "maxLength": 500
+    },
+    "entrypoint": {
+      "type": "string",
+      "description": "Path to main skill file",
+      "pattern": "^[a-zA-Z0-9_/.-]+\\.claude$"
+    },
+    "capabilities": {
+      "type": "array",
+      "description": "List of capabilities this skill provides",
+      "items": {
+        "type": "object",
+        "required": ["name", "description", "inputSchema", "outputSchema"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Capability name"
+          },
+          "description": {
+            "type": "string",
+            "description": "What this capability does"
+          },
+          "inputSchema": {
+            "type": "object",
+            "description": "JSON Schema for input"
+          },
+          "outputSchema": {
+            "type": "object",
+            "description": "JSON Schema for output"
+          },
+          "approvalLevel": {
+            "type": "integer",
+            "description": "Required approval level (1-5)",
+            "minimum": 1,
+            "maximum": 5,
+            "default": 1
+          },
+          "sideEffects": {
+            "type": "array",
+            "description": "Possible side effects",
+            "items": {
+              "type": "string",
+              "enum": ["none", "file_write", "file_delete", "network", "state_change", "external_api"]
+            }
+          }
+        }
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "description": "Other skills this skill depends on",
+      "items": {
+        "type": "object",
+        "required": ["skill", "version"],
+        "properties": {
+          "skill": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "optional": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      }
+    },
+    "permissions": {
+      "type": "object",
+      "description": "Required permissions",
+      "properties": {
+        "fileSystem": {
+          "type": "object",
+          "properties": {
+            "read": { "type": "array", "items": { "type": "string" } },
+            "write": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "network": {
+          "type": "boolean",
+          "default": false
+        },
+        "autonomy": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "safetyConstraints": {
+      "type": "array",
+      "description": "Safety rules this skill follows",
+      "items": {
+        "type": "string"
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata",
+      "properties": {
+        "author": { "type": "string" },
+        "license": { "type": "string" },
+        "homepage": { "type": "string", "format": "uri" },
+        "repository": { "type": "string", "format": "uri" },
+        "tags": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}
