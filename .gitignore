@@ -110,3 +110,4 @@ secrets.json
 
 # EAOS Config (local overrides)
 .eaos.config.local.json
+.eaos.config.json
