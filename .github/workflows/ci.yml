@@ -54,7 +54,7 @@ jobs:
         run: npm ci
 
       - name: Run ESLint
-        run: npm run lint || true
+        run: npm run lint
 
   # ===========================================================================
   # Test Job
@@ -82,8 +82,11 @@ jobs:
       - name: Run CLI status check
         run: node cli/eaos.js status
 
-      - name: Run test suite
-        run: npm test || true
+      - name: Run unit tests
+        run: npm test
+
+      - name: Run integration tests
+        run: npm run test:integration
 
   # ===========================================================================
   # Security Scan Job
@@ -106,7 +109,11 @@ jobs:
         run: npm ci
 
       - name: Run npm audit
-        run: npm audit --audit-level=high || true
+        run: npm audit --audit-level=high
+        continue-on-error: true
+
+      - name: Fail on critical vulnerabilities
+        run: npm audit --audit-level=critical
 
       - name: Check for secrets
         run: |

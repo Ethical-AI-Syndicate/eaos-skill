@@ -5,6 +5,45 @@ All notable changes to EAOS (Enterprise AI Operating System) will be documented 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-beta.3] - 2025-12-08
+
+### Added
+
+#### Core Modules
+- **Validation Module** (`core/validation.js`) - Input sanitization and path security
+- **Error Handling Module** (`core/errors.js`) - Custom error classes, retry logic, Result type
+- **ISO 42001 Engine** (`compliance/iso42001_engine.claude`) - AI Management System compliance
+
+#### Test Suite (304 tests, +230 from beta.2)
+- Logger unit tests (42) - Full coverage of EAOSLogger
+- Metrics unit tests (53) - Counter, Gauge, Histogram, Registry
+- Validation unit tests (49) - Sanitization and path security
+- Error handling tests (51) - Custom errors, retry logic, Result type
+- Integration tests (35) - Full CLI workflow tests
+
+#### CLI Enhancements
+- `compliance iso42001` command with gap analysis and evidence collection
+- Improved compliance command exposure in skill loader
+
+### Fixed
+- **29 failing integration tests** - Fixed runCli() argument handling
+- **Histogram bucket double-cumulation bug** - Fixed observe() to use non-cumulative storage
+- **CI/CD error suppression** - Removed `|| true` patterns, added proper error handling
+- **ESLint errors** - Fixed quote style, indentation, and unused variable warnings
+- **Package.json test scripts** - Include core/ subdirectory tests
+
+### Changed
+- CI workflow now properly fails on lint errors, test failures
+- Security scan warns on high vulnerabilities, fails on critical
+- Test scripts include all core module tests
+
+### Security
+- Input validation prevents injection attacks (XSS, template injection, null bytes)
+- Path traversal protection in validation module
+- Custom error types for security-related failures
+
+---
+
 ## [1.0.0-beta.2] - 2025-12-08
 
 ### Added

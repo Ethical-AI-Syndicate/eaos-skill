@@ -23,7 +23,6 @@ const ROOT_DIR = path.join(__dirname, '..');
 const RED = '\x1b[31m';
 const GREEN = '\x1b[32m';
 const YELLOW = '\x1b[33m';
-const CYAN = '\x1b[36m';
 const RESET = '\x1b[0m';
 
 // Load config
@@ -41,7 +40,7 @@ const warnings = [];
 // Lint Rules
 // =============================================================================
 
-function checkHeader(content, filePath) {
+function checkHeader(content, _filePath) {
   // Check for markdown header
   if (!content.match(/^#\s+.+/m)) {
     return { severity: 'error', message: 'Missing header (# Title)' };
@@ -81,7 +80,7 @@ function checkSafetyConstraints(content, filePath) {
   return null;
 }
 
-function checkMaxLength(content, filePath) {
+function checkMaxLength(content, _filePath) {
   const lines = content.split('\n').length;
   const maxLines = config.rules['max-prompt-length']?.maxLines || 500;
   if (lines > maxLines) {
@@ -90,7 +89,7 @@ function checkMaxLength(content, filePath) {
   return null;
 }
 
-function checkNoSecrets(content, filePath) {
+function checkNoSecrets(content, _filePath) {
   const patterns = config.rules['no-hardcoded-secrets']?.patterns || [];
   for (const pattern of patterns) {
     const regex = new RegExp(pattern, 'i');
@@ -101,7 +100,7 @@ function checkNoSecrets(content, filePath) {
   return null;
 }
 
-function checkNoDangerousCommands(content, filePath) {
+function checkNoDangerousCommands(content, _filePath) {
   const patterns = config.rules['no-dangerous-commands']?.patterns || [];
   for (const pattern of patterns) {
     const regex = new RegExp(pattern, 'i');
@@ -112,7 +111,7 @@ function checkNoDangerousCommands(content, filePath) {
   return null;
 }
 
-function checkApprovalLevels(content, filePath) {
+function checkApprovalLevels(content, _filePath) {
   // Check if critical operations mention approval levels
   const hasCritical = content.match(/critical|destructive|production|deploy/i);
   const hasApproval = content.match(/approval|L[1-5]|human.*review|escalate/i);

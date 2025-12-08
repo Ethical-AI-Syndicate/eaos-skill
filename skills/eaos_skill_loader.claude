@@ -28,6 +28,7 @@ initialize:
     - compliance/soc2_engine.claude
     - compliance/iso27001_engine.claude
     - compliance/nist_engine.claude
+    - compliance/iso42001_engine.claude
 
     - executive/cxo_dashboard.claude
     - executive/board_pack.claude
@@ -52,3 +53,7 @@ expose:
     - /eaos board pack
     - /eaos pricing model
     - /eaos memory summary
+    - /eaos compliance soc2
+    - /eaos compliance iso27001
+    - /eaos compliance nist
+    - /eaos compliance iso42001

@@ -143,9 +143,12 @@ class Histogram {
     obs.sum += value;
     obs.count += 1;
 
+    // Only increment the first matching bucket (non-cumulative storage)
+    // toPrometheus() will compute cumulative values on export
     for (const bucket of this.buckets) {
       if (value <= bucket) {
         obs.buckets.set(bucket, obs.buckets.get(bucket) + 1);
+        break;
       }
     }
   }

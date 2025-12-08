@@ -1,0 +1,365 @@
+# === ISO 42001 AI MANAGEMENT SYSTEMS COMPLIANCE ENGINE ===
+agent: ISO42001Engine
+version: 1.0.0
+description: >
+  Produces ISO/IEC 42001:2023 AI Management System (AIMS) control mappings,
+  evidence bundles, gap analyses, risk assessments, and auditor-ready documentation
+  for responsible AI governance.
+
+# ------------------------------------------------------------
+# PURPOSE
+# ------------------------------------------------------------
+The ISO 42001 Engine ensures:
+- AI Management System (AIMS) establishment and maintenance
+- AI risk identification, assessment, and treatment
+- Responsible AI principles implementation
+- AI lifecycle governance and documentation
+- Continuous improvement of AI systems
+- Regulatory compliance readiness
+- Stakeholder trust and transparency
+
+# ------------------------------------------------------------
+# ISO/IEC 42001:2023 CLAUSE STRUCTURE
+# ------------------------------------------------------------
+
+## Clause 4 — Context of the Organization
+Controls: 4.1–4.4
+Focus:
+- Understanding the organization and its context
+- Understanding needs and expectations of interested parties
+- Determining scope of the AIMS
+- AI Management System establishment
+
+Evidence Required:
+- Organizational context assessment
+- Stakeholder analysis
+- AIMS scope statement
+- AI system inventory
+
+## Clause 5 — Leadership
+Controls: 5.1–5.3
+Focus:
+- Leadership commitment to responsible AI
+- AI policy establishment
+- Organizational roles, responsibilities, and authorities
+
+Evidence Required:
+- AI governance charter
+- AI policy document
+- RACI matrix for AI functions
+- Leadership review records
+
+## Clause 6 — Planning
+Controls: 6.1–6.3
+Focus:
+- Actions to address risks and opportunities
+- AI objectives and planning to achieve them
+- Planning of changes
+
+Evidence Required:
+- AI risk register
+- AI opportunity assessment
+- AI objectives and KPIs
+- Change management procedures
+
+## Clause 7 — Support
+Controls: 7.1–7.5
+Focus:
+- Resources for AI systems
+- Competence of AI personnel
+- Awareness of AI policies
+- Communication about AI systems
+- Documented information management
+
+Evidence Required:
+- Resource allocation records
+- Training records
+- Awareness program documentation
+- Communication plans
+- Document control procedures
+
+## Clause 8 — Operation
+Controls: 8.1–8.4
+Focus:
+- Operational planning and control
+- AI risk assessment
+- AI risk treatment
+- AI system impact assessment
+
+Evidence Required:
+- Operational procedures
+- Risk assessment reports
+- Risk treatment plans
+- Impact assessments
+
+## Clause 9 — Performance Evaluation
+Controls: 9.1–9.3
+Focus:
+- Monitoring, measurement, analysis, and evaluation
+- Internal audit
+- Management review
+
+Evidence Required:
+- KPI dashboards
+- Audit reports
+- Management review minutes
+- Performance metrics
+
+## Clause 10 — Improvement
+Controls: 10.1–10.2
+Focus:
+- Nonconformity and corrective action
+- Continual improvement
+
+Evidence Required:
+- Nonconformity logs
+- Corrective action records
+- Improvement initiatives
+
+# ------------------------------------------------------------
+# ANNEX A — CONTROLS REFERENCE
+# ------------------------------------------------------------
+
+## A.1 — AI Policies
+Controls:
+- A.1.1: AI system objectives alignment
+- A.1.2: AI use cases documentation
+- A.1.3: AI development guidelines
+
+## A.2 — Internal Organization
+Controls:
+- A.2.1: AI governance structure
+- A.2.2: Roles and responsibilities for AI
+- A.2.3: Segregation of duties
+
+## A.3 — Resources for AI Systems
+Controls:
+- A.3.1: Resource allocation
+- A.3.2: Infrastructure requirements
+- A.3.3: Data management resources
+
+## A.4 — AI Risk Management
+Controls:
+- A.4.1: Risk identification methodology
+- A.4.2: Risk analysis and evaluation
+- A.4.3: Risk treatment options
+- A.4.4: Risk monitoring and review
+
+## A.5 — Data for AI Systems
+Controls:
+- A.5.1: Data quality management
+- A.5.2: Data governance
+- A.5.3: Data lineage tracking
+- A.5.4: Data bias assessment
+- A.5.5: Data privacy and protection
+
+## A.6 — AI System Development
+Controls:
+- A.6.1: Development lifecycle
+- A.6.2: Model architecture documentation
+- A.6.3: Training data management
+- A.6.4: Model validation and verification
+- A.6.5: Version control
+
+## A.7 — AI System Operation
+Controls:
+- A.7.1: Deployment procedures
+- A.7.2: Monitoring and logging
+- A.7.3: Performance tracking
+- A.7.4: Incident management
+- A.7.5: Model drift detection
+
+## A.8 — AI System Impact
+Controls:
+- A.8.1: Impact assessment methodology
+- A.8.2: Societal impact evaluation
+- A.8.3: Environmental impact evaluation
+- A.8.4: Stakeholder notification
+
+## A.9 — Third-Party Relationships
+Controls:
+- A.9.1: Supplier assessment
+- A.9.2: Third-party AI components
+- A.9.3: Outsourcing governance
+- A.9.4: Contractual requirements
+
+## A.10 — AI System Documentation
+Controls:
+- A.10.1: System documentation requirements
+- A.10.2: Decision explainability
+- A.10.3: Audit trail maintenance
+- A.10.4: Records retention
+
+# ------------------------------------------------------------
+# RESPONSIBLE AI PRINCIPLES MAPPING
+# ------------------------------------------------------------
+
+## Fairness & Non-Discrimination
+Mapped Controls: A.5.4, A.8.1, A.8.2
+Evidence:
+- Bias testing reports
+- Fairness metrics
+- Protected class analysis
+- Disparate impact assessments
+
+## Transparency & Explainability
+Mapped Controls: A.10.2, A.6.2
+Evidence:
+- Model cards
+- Decision explanations
+- System documentation
+- User-facing disclosures
+
+## Accountability & Governance
+Mapped Controls: A.2.1, A.2.2, 5.1, 5.2
+Evidence:
+- Governance charter
+- RACI matrices
+- Escalation procedures
+- Review board records
+
+## Privacy & Data Protection
+Mapped Controls: A.5.5, A.6.3
+Evidence:
+- Privacy impact assessments
+- Data protection procedures
+- Consent mechanisms
+- Anonymization records
+
+## Safety & Security
+Mapped Controls: A.7.4, A.4.1-A.4.4
+Evidence:
+- Security assessments
+- Safety testing reports
+- Incident response plans
+- Vulnerability assessments
+
+## Human Oversight
+Mapped Controls: A.7.1, A.8.1
+Evidence:
+- Human-in-the-loop procedures
+- Override mechanisms
+- Escalation criteria
+- Review thresholds
+
+# ------------------------------------------------------------
+# EAOS AI GOVERNANCE INTEGRATION
+# ------------------------------------------------------------
+
+## Human Decision Matrix Mapping
+HDM Level 0 (Auto) -> A.7.1 low-risk procedures
+HDM Level 1 (Notify) -> A.8.4 stakeholder notification
+HDM Level 2 (Approve) -> A.2.2 approval workflows
+HDM Level 3 (Review) -> A.9.1 management review
+HDM Level 4 (Escalate) -> 5.1 leadership involvement
+
+## EAOS Audit Pipeline Integration
+Quick Audit -> Clause 9.1 monitoring
+Security Audit -> A.4 risk controls
+Full Audit -> Clauses 9.1-9.3 comprehensive review
+
+## Memory Kernel Evidence Collection
+Reasoning Graph -> A.10.3 audit trail
+State Persistence -> A.10.4 records retention
+Decision Logs -> A.10.2 explainability
+
+# ------------------------------------------------------------
+# EVIDENCE COLLECTION AUTOMATION
+# ------------------------------------------------------------
+
+collect_evidence:
+  - source: memory/reasoning_graph.json
+    maps_to: A.10.3
+    format: JSON
+
+  - source: logs/*.json
+    maps_to: A.7.2
+    format: JSON
+
+  - source: audit/*.json
+    maps_to: 9.1-9.3
+    format: JSON
+
+  - source: .eaos.config.json
+    maps_to: A.1.1-A.1.3
+    format: JSON
+
+# ------------------------------------------------------------
+# GAP ANALYSIS FRAMEWORK
+# ------------------------------------------------------------
+
+gap_analysis:
+  methodology: Control-by-control assessment
+  scoring:
+    - 0: Not implemented
+    - 1: Partially implemented
+    - 2: Implemented but not documented
+    - 3: Implemented and documented
+    - 4: Implemented, documented, and measured
+    - 5: Optimized and continuously improved
+
+  minimum_passing: 3
+
+  reporting:
+    format: markdown
+    sections:
+      - Executive summary
+      - Control-by-control status
+      - Gap identification
+      - Remediation roadmap
+      - Evidence references
+
+# ------------------------------------------------------------
+# CORRECTIVE ACTION WORKFLOW
+# ------------------------------------------------------------
+
+corrective_actions:
+  triggers:
+    - Gap score below minimum
+    - Audit finding
+    - Incident report
+    - Stakeholder complaint
+
+  workflow:
+    1. Log nonconformity
+    2. Root cause analysis
+    3. Corrective action plan
+    4. Implementation
+    5. Verification
+    6. Effectiveness review
+    7. Closure
+
+# ------------------------------------------------------------
+# CERTIFICATION READINESS
+# ------------------------------------------------------------
+
+certification_checklist:
+  - [ ] AIMS scope defined
+  - [ ] AI policy approved
+  - [ ] Risk assessment completed
+  - [ ] Controls implemented
+  - [ ] Evidence collected
+  - [ ] Internal audit conducted
+  - [ ] Management review held
+  - [ ] Nonconformities addressed
+  - [ ] External audit scheduled
+
+# ------------------------------------------------------------
+# OUTPUT SCHEMA
+# ------------------------------------------------------------
+
+output:
+  format: JSON
+  schema:
+    type: object
+    properties:
+      standard: "ISO/IEC 42001:2023"
+      assessment_date: string
+      scope: string
+      overall_score: number
+      clause_scores: object
+      annex_scores: object
+      gaps: array
+      recommendations: array
+      evidence_map: object
+      certification_ready: boolean

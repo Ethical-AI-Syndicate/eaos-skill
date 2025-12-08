@@ -93,7 +93,7 @@ describe('EAOS Integration Tests', () => {
   describe('Full Initialization Workflow', () => {
 
     test('should initialize system', () => {
-      const result = runCli('init --force');
+      const result = runCli(['init', '--force']);
       assert.ok(result.success, `Init should succeed: ${result.error || ''}`);
       // Check for success indicators in output
       assert.ok(
@@ -147,14 +147,14 @@ describe('EAOS Integration Tests', () => {
   describe('Status and Health Checks', () => {
 
     test('status should show all systems ready', () => {
-      const result = runCli('status');
+      const result = runCli(['status']);
       assert.ok(result.success, 'Status should succeed');
       assert.ok(result.output.includes('Memory Kernel'), 'Should show memory kernel status');
       assert.ok(result.output.includes('Reasoning Graph'), 'Should show reasoning graph status');
     });
 
     test('status should report initialized state', () => {
-      const result = runCli('status');
+      const result = runCli(['status']);
       assert.ok(result.output.includes('Yes'), 'Should show initialized as Yes');
     });
 
@@ -167,17 +167,17 @@ describe('EAOS Integration Tests', () => {
   describe('Audit Workflows', () => {
 
     test('quick audit should complete', () => {
-      const result = runCli('audit quick');
+      const result = runCli(['audit', 'quick']);
       assert.ok(result.success, `Quick audit should succeed: ${result.error || ''}`);
     });
 
     test('security audit should complete', () => {
-      const result = runCli('audit security');
+      const result = runCli(['audit', 'security']);
       assert.ok(result.success, `Security audit should succeed: ${result.error || ''}`);
     });
 
     test('full audit should complete', () => {
-      const result = runCli('audit full', { timeout: 120000 });
+      const result = runCli(['audit', 'full'], { timeout: 120000 });
       assert.ok(result.success, `Full audit should succeed: ${result.error || ''}`);
     });
 
@@ -198,23 +198,23 @@ describe('EAOS Integration Tests', () => {
   describe('Compliance Workflows', () => {
 
     test('SOC-2 compliance check should complete', () => {
-      const result = runCli('compliance soc2');
+      const result = runCli(['compliance', 'soc2']);
       assert.ok(result.success, 'SOC-2 check should succeed');
       assert.ok(result.output.includes('Controls mapped'), 'Should show controls mapped');
     });
 
     test('ISO 27001 compliance check should complete', () => {
-      const result = runCli('compliance iso27001');
+      const result = runCli(['compliance', 'iso27001']);
       assert.ok(result.success, 'ISO 27001 check should succeed');
     });
 
     test('NIST compliance check should complete', () => {
-      const result = runCli('compliance nist');
+      const result = runCli(['compliance', 'nist']);
       assert.ok(result.success, 'NIST check should succeed');
     });
 
     test('compliance with map flag should work', () => {
-      const result = runCli('compliance soc2 --map');
+      const result = runCli(['compliance', 'soc2', '--map']);
       assert.ok(result.success, 'Compliance map should succeed');
     });
 
@@ -227,12 +227,12 @@ describe('EAOS Integration Tests', () => {
   describe('BEADS Workflows', () => {
 
     test('beads list should work', () => {
-      const result = runCli('beads list');
+      const result = runCli(['beads', 'list']);
       assert.ok(result.success, 'Beads list should succeed');
     });
 
     test('beads create should add new task', () => {
-      const result = runCli('beads create --title "Test BEAD" --category feat --priority P2');
+      const result = runCli(['beads', 'create', '--title', 'Test BEAD', '--category', 'feat', '--priority', 'P2']);
       assert.ok(result.success, 'Beads create should succeed');
     });
 
@@ -254,17 +254,17 @@ describe('EAOS Integration Tests', () => {
   describe('Simulation Workflows', () => {
 
     test('simulate should work with scenario', () => {
-      const result = runCli('simulate "test deployment"');
+      const result = runCli(['simulate', 'test deployment']);
       assert.ok(result.success, 'Sandbox simulation should succeed');
     });
 
     test('multiverse simulate should work', () => {
-      const result = runCli('multiverse simulate "scaling strategy"');
+      const result = runCli(['multiverse', 'simulate', 'scaling strategy']);
       assert.ok(result.success, 'Multiverse simulation should succeed');
     });
 
     test('quantum planning should work', () => {
-      const result = runCli('quantum plan "infrastructure upgrade"');
+      const result = runCli(['quantum', 'plan', 'infrastructure upgrade']);
       assert.ok(result.success, 'Quantum planning should succeed');
     });
 
@@ -277,7 +277,7 @@ describe('EAOS Integration Tests', () => {
   describe('Memory Persistence', () => {
 
     test('memory summary should show stats', () => {
-      const result = runCli('memory summary');
+      const result = runCli(['memory', 'summary']);
       assert.ok(result.success, 'Memory summary should succeed');
     });
 
@@ -299,18 +299,18 @@ describe('EAOS Integration Tests', () => {
   describe('Autonomy Controls', () => {
 
     test('autonomy status should show disabled', () => {
-      const result = runCli('autonomy status');
+      const result = runCli(['autonomy', 'status']);
       assert.ok(result.success, 'Autonomy status should succeed');
       assert.ok(result.output.includes('Disabled'), 'Autonomy should be disabled');
     });
 
     test('autonomy on should enable', () => {
-      const result = runCli('autonomy on');
+      const result = runCli(['autonomy', 'on']);
       assert.ok(result.success, 'Autonomy on should succeed');
     });
 
     test('autonomy off should disable', () => {
-      const result = runCli('autonomy off');
+      const result = runCli(['autonomy', 'off']);
       assert.ok(result.success, 'Autonomy off should succeed');
     });
 
@@ -323,13 +323,13 @@ describe('EAOS Integration Tests', () => {
   describe('Dashboard Generation', () => {
 
     test('dashboard should generate successfully', () => {
-      const result = runCli('dashboard');
+      const result = runCli(['dashboard']);
       assert.ok(result.success, 'Dashboard generation should succeed');
       assert.ok(result.output.includes('Dashboard'), 'Should show dashboard content');
     });
 
     test('dashboard should show all departments', () => {
-      const result = runCli('dashboard');
+      const result = runCli(['dashboard']);
       assert.ok(
         result.output.includes('Engineering') ||
         result.output.includes('Health') ||
@@ -347,13 +347,13 @@ describe('EAOS Integration Tests', () => {
   describe('Error Handling', () => {
 
     test('invalid command should show help', () => {
-      const result = runCli('notacommand');
+      const result = runCli(['notacommand']);
       // Should either fail gracefully or show help
       assert.ok(true, 'Invalid command was handled');
     });
 
     test('help should be accessible', () => {
-      const result = runCli('--help');
+      const result = runCli(['--help']);
       assert.ok(result.success, 'Help should succeed');
       assert.ok(result.output.includes('Enterprise AI Operating System'), 'Should show description');
     });
@@ -367,21 +367,21 @@ describe('EAOS Integration Tests', () => {
   describe('Multi-Command Sequences', () => {
 
     test('init -> status -> audit sequence should work', () => {
-      const init = runCli('init');
+      const init = runCli(['init']);
       assert.ok(init.success, 'Init should succeed');
 
-      const status = runCli('status');
+      const status = runCli(['status']);
       assert.ok(status.success, 'Status should succeed after init');
 
-      const audit = runCli('audit quick');
+      const audit = runCli(['audit', 'quick']);
       assert.ok(audit.success, 'Audit should succeed after status');
     });
 
     test('compliance -> dashboard sequence should work', () => {
-      const compliance = runCli('compliance soc2');
+      const compliance = runCli(['compliance', 'soc2']);
       assert.ok(compliance.success, 'Compliance should succeed');
 
-      const dashboard = runCli('dashboard');
+      const dashboard = runCli(['dashboard']);
       assert.ok(dashboard.success, 'Dashboard should succeed after compliance');
     });
 

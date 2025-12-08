@@ -26,72 +26,72 @@ const CHANGELOG_FILE = path.join(MEMORY_DIR, 'changelog.md');
 
 // Initial state structure
 const initialState = {
-  "$schema": "../EAOS_REASONING_GRAPH_SCHEMA.json",
-  "version": "1.0.0",
-  "initialized_at": new Date().toISOString(),
-  "last_updated": new Date().toISOString(),
-  "system": {
-    "boot_count": 0,
-    "last_boot": null,
-    "autonomy_enabled": false,
-    "autonomy_last_cycle": null,
-    "swarm_enabled": false,
-    "swarm_node_id": null
+  '$schema': '../EAOS_REASONING_GRAPH_SCHEMA.json',
+  'version': '1.0.0',
+  'initialized_at': new Date().toISOString(),
+  'last_updated': new Date().toISOString(),
+  'system': {
+    'boot_count': 0,
+    'last_boot': null,
+    'autonomy_enabled': false,
+    'autonomy_last_cycle': null,
+    'swarm_enabled': false,
+    'swarm_node_id': null
   },
-  "domains": {
-    "system_state": {
-      "description": "BEADS history, code quality trends, audit outputs, release history",
-      "entries": []
+  'domains': {
+    'system_state': {
+      'description': 'BEADS history, code quality trends, audit outputs, release history',
+      'entries': []
     },
-    "executive_intelligence": {
-      "description": "CTO/CFO/CIO/CRO directives and updates",
-      "entries": []
+    'executive_intelligence': {
+      'description': 'CTO/CFO/CIO/CRO directives and updates',
+      'entries': []
     },
-    "compliance_security": {
-      "description": "SOC-2/ISO/NIST mappings, evidentiary artifacts, control changes",
-      "entries": []
+    'compliance_security': {
+      'description': 'SOC-2/ISO/NIST mappings, evidentiary artifacts, control changes',
+      'entries': []
     },
-    "product_engineering": {
-      "description": "Feature evolution, technical risk register, observability coverage",
-      "entries": []
+    'product_engineering': {
+      'description': 'Feature evolution, technical risk register, observability coverage',
+      'entries': []
     },
-    "strategic_reasoning": {
-      "description": "Past scenarios, winning strategies, known risk triggers",
-      "entries": []
+    'strategic_reasoning': {
+      'description': 'Past scenarios, winning strategies, known risk triggers',
+      'entries': []
     },
-    "market_intelligence": {
-      "description": "Competitor models, positioning evolution, feature gaps",
-      "entries": []
+    'market_intelligence': {
+      'description': 'Competitor models, positioning evolution, feature gaps',
+      'entries': []
     },
-    "financial_reality": {
-      "description": "Spend trends, pricing experiments, runway evolution, KPIs",
-      "entries": []
+    'financial_reality': {
+      'description': 'Spend trends, pricing experiments, runway evolution, KPIs',
+      'entries': []
     }
   },
-  "metadata": {
-    "schema_version": "1.0.0",
-    "migrations_applied": []
+  'metadata': {
+    'schema_version': '1.0.0',
+    'migrations_applied': []
   }
 };
 
 // Initial reasoning graph
 const initialGraph = {
-  "$schema": "../EAOS_REASONING_GRAPH_SCHEMA.json",
-  "version": "1.0.0",
-  "created_at": new Date().toISOString(),
-  "last_updated": new Date().toISOString(),
-  "nodes": [
+  '$schema': '../EAOS_REASONING_GRAPH_SCHEMA.json',
+  'version': '1.0.0',
+  'created_at': new Date().toISOString(),
+  'last_updated': new Date().toISOString(),
+  'nodes': [
     {
-      "id": "system-root",
-      "type": "agent",
-      "metadata": {
-        "name": "EAOS",
-        "description": "Enterprise AI Operating System root node",
-        "created_at": new Date().toISOString()
+      'id': 'system-root',
+      'type': 'agent',
+      'metadata': {
+        'name': 'EAOS',
+        'description': 'Enterprise AI Operating System root node',
+        'created_at': new Date().toISOString()
       }
     }
   ],
-  "edges": []
+  'edges': []
 };
 
 // Initial summary

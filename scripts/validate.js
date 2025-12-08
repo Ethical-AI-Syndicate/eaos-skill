@@ -32,8 +32,8 @@ const RESET = '\x1b[0m';
 
 function log(type, message) {
   const prefix = type === 'error' ? `${RED}✗${RESET}` :
-                 type === 'warn' ? `${YELLOW}⚠${RESET}` :
-                 `${GREEN}✓${RESET}`;
+    type === 'warn' ? `${YELLOW}⚠${RESET}` :
+      `${GREEN}✓${RESET}`;
   console.log(`  ${prefix} ${message}`);
 }
 
