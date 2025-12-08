@@ -11,7 +11,7 @@
 
 import { test, describe, before, after } from 'node:test';
 import assert from 'node:assert';
-import { execSync, spawn } from 'child_process';
+import { execSync, execFileSync, spawn } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -22,14 +22,20 @@ const ROOT_DIR = path.join(__dirname, '..');
 const CLI_PATH = path.join(ROOT_DIR, 'cli', 'eaos.js');
 
 // Helper to run CLI commands
+// args: array of strings (CLI arguments)
 function runCli(args, options = {}) {
   try {
-    const result = execSync(`node ${CLI_PATH} ${args}`, {
-      cwd: ROOT_DIR,
-      encoding: 'utf-8',
-      timeout: options.timeout || 60000,
-      env: { ...process.env, ...options.env }
-    });
+    // execFileSync escapes arguments safely
+    const result = execFileSync(
+      'node',
+      [CLI_PATH, ...args],
+      {
+        cwd: ROOT_DIR,
+        encoding: 'utf-8',
+        timeout: options.timeout || 60000,
+        env: { ...process.env, ...options.env }
+      }
+    );
     return { success: true, output: result };
   } catch (error) {
     return {
