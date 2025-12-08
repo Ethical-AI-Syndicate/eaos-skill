@@ -5,6 +5,37 @@ All notable changes to EAOS (Enterprise AI Operating System) will be documented 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-beta.2] - 2025-12-08
+
+### Added
+
+#### Governance & Security
+- **CODEOWNERS** - Code review requirements by directory
+- **SECURITY.md** - Vulnerability reporting policy
+- **VERSIONING.md** - Semantic versioning and compatibility policy
+- **CodeQL Scanning** - Automated security analysis
+
+#### API Schemas
+- **SKILL_CONTRACT_SCHEMA.json** - Skill definition contract
+- **MEMORY_KERNEL_API_SCHEMA.json** - Memory operations API
+- **AGENT_BOUNDARY_API_SCHEMA.json** - Inter-agent communication schema
+
+#### Test Suite (74 tests)
+- Contract tests (25) - Schema validation
+- Prompt safety tests (10) - Security pattern detection
+- Behavioral tests (27) - Agent orchestration verification
+
+#### Documentation Site
+- Full mkdocs-material documentation
+- Auto-deployed to GitHub Pages
+- Architecture, CLI, API, Compliance, Contributing guides
+
+### Fixed
+- Shell command injection vulnerability (CodeQL alert #13)
+- GitHub Pages auto-enablement in docs workflow
+
+---
+
 ## [1.0.0-beta] - 2025-12-07
 
 ### Added
