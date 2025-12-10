@@ -5,6 +5,52 @@ All notable changes to EAOS (Enterprise AI Operating System) will be documented 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-beta.4] - 2025-12-10
+
+### Added
+
+#### Enhanced Autonomy Mode
+- **Autonomy Engine** (`core/autonomy.js`) - Full hybrid autonomy implementation
+  - Scheduled cycles (daily, weekly, monthly) with configurable schedules
+  - Event-driven triggers with pattern matching (wildcards, conditions)
+  - On-demand cycle execution via CLI
+  - HDM (Human Decision Matrix) integration with 5 approval levels
+  - State persistence and cycle history tracking
+  - Built-in triggers for PR merges, dependency updates, error spikes, burn rate
+
+#### Plugin System
+- **Event Bus** (`core/events.js`) - Pub/sub communication for inter-component messaging
+  - Wildcard pattern matching (e.g., `autonomy:*`)
+  - Once listeners and event history
+  - Async event handlers with graceful error handling
+- **Plugin Manager** (`core/plugins.js`) - Full plugin lifecycle management
+  - Plugin discovery, loading, enabling/disabling
+  - Hook registration (beforeCycle, afterCycle, beforeTask, afterTask)
+  - Priority-based hook execution
+  - Dependency management between plugins
+
+#### CLI Commands
+- `eaos autonomy on` - Enable autonomy with HDM level configuration
+- `eaos autonomy off` - Disable autonomy engine
+- `eaos autonomy status` - Show engine state, triggers, and plugin status
+- `eaos autonomy run <cycle>` - Manually run daily/weekly/monthly cycles
+- `eaos autonomy logs` - View cycle execution history
+- `eaos autonomy triggers` - List registered event triggers
+- `eaos plugin list` - List installed plugins
+- `eaos plugin discover` - Discover available plugins
+- `eaos plugin load/enable/disable <id>` - Plugin lifecycle management
+
+#### Test Suite (291 tests, +84 from beta.3)
+- Events module tests (26) - EventBus, wildcards, history
+- Plugins module tests (29) - Plugin class, PluginManager, hooks
+- Autonomy module tests (29) - AutonomyEngine, Trigger, cycles
+
+### Changed
+- CLI now imports and uses real autonomy engine instead of stubs
+- Autonomy status command shows engine state instead of "Disabled"
+
+---
+
 ## [1.0.0-beta.3] - 2025-12-08
 
 ### Added

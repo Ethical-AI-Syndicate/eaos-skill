@@ -1,6 +1,6 @@
 {
   "name": "@eaos/cli",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "Enterprise AI Operating System - Multi-agent governance, auditing, compliance, and strategy orchestration for Claude Code",
   "type": "module",
   "main": "cli/eaos.js",

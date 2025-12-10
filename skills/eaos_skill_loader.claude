@@ -39,6 +39,7 @@ initialize:
 
 expose:
   commands:
+    # Core system
     - /eaos status
     - /eaos audit full
     - /eaos audit quick
@@ -48,11 +49,24 @@ expose:
     - /eaos simulate
     - /eaos multiverse simulate
     - /eaos quantum plan
-    - /eaos autonomy on
     - /eaos cxodashboard
     - /eaos board pack
     - /eaos pricing model
     - /eaos memory summary
+    # Autonomy mode
+    - /eaos autonomy on
+    - /eaos autonomy off
+    - /eaos autonomy status
+    - /eaos autonomy run <cycle>
+    - /eaos autonomy logs
+    - /eaos autonomy triggers
+    # Plugin system
+    - /eaos plugin list
+    - /eaos plugin discover
+    - /eaos plugin load <id>
+    - /eaos plugin enable <id>
+    - /eaos plugin disable <id>
+    # Compliance
     - /eaos compliance soc2
     - /eaos compliance iso27001
     - /eaos compliance nist

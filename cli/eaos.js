@@ -18,6 +18,8 @@ import ora from 'ora';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import fs from 'fs-extra';
+import { getAutonomyEngine, CYCLE_TYPES, HDM_LEVELS, ENGINE_STATES } from '../core/autonomy.js';
+import { getPluginManager } from '../core/plugins.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -573,28 +575,323 @@ const autonomyCmd = program
 autonomyCmd
   .command('on')
   .description('Enable autonomy mode')
-  .action(async () => {
-    console.log(chalk.yellow('\n⚠ Autonomy mode requires Level 3 approval'));
-    console.log(chalk.gray('  This action would enable automated cycles and repairs.'));
-    console.log(chalk.gray('  Use --force to bypass (not recommended for production).'));
+  .option('--force', 'Force enable without approval check')
+  .option('--hdm-level <level>', 'Set HDM approval level (0-4)', '2')
+  .action(async (options) => {
+    const spinner = ora('Initializing autonomy engine...').start();
+
+    try {
+      const engine = getAutonomyEngine({ rootDir: ROOT_DIR });
+      await engine.initialize();
+
+      const hdmLevel = parseInt(options.hdmLevel, 10);
+      if (hdmLevel >= HDM_LEVELS.APPROVE && !options.force) {
+        spinner.warn(chalk.yellow('Autonomy mode requires approval'));
+        console.log(chalk.gray('  Current HDM level: ' + hdmLevel));
+        console.log(chalk.gray('  Use --force to bypass (not recommended for production).'));
+        return;
+      }
+
+      engine.hdmLevel = hdmLevel;
+      await engine.start();
+
+      spinner.succeed(chalk.green('Autonomy mode enabled'));
+      console.log('\n' + chalk.bold('Autonomy Configuration'));
+      console.log(chalk.gray('─'.repeat(50)));
+      console.log('  HDM Level:        ' + hdmLevel + ' (' + Object.keys(HDM_LEVELS)[hdmLevel] + ')');
+      console.log('  Daily Cycle:      ' + chalk.green('Scheduled'));
+      console.log('  Weekly Cycle:     ' + chalk.green('Scheduled'));
+      console.log('  Monthly Cycle:    ' + chalk.green('Scheduled'));
+      console.log('  Event Triggers:   ' + chalk.green('Active'));
+    } catch (error) {
+      spinner.fail(chalk.red('Failed to enable autonomy mode'));
+      console.error(chalk.red('  Error: ' + error.message));
+    }
   });
 
 autonomyCmd
   .command('off')
   .description('Disable autonomy mode')
   .action(async () => {
-    console.log(chalk.green('✓ Autonomy mode disabled'));
+    const spinner = ora('Stopping autonomy engine...').start();
+
+    try {
+      const engine = getAutonomyEngine({ rootDir: ROOT_DIR });
+      await engine.stop();
+      spinner.succeed(chalk.green('Autonomy mode disabled'));
+    } catch (error) {
+      spinner.fail(chalk.red('Failed to disable autonomy mode'));
+      console.error(chalk.red('  Error: ' + error.message));
+    }
   });
 
 autonomyCmd
   .command('status')
   .description('Show autonomy status')
   .action(async () => {
-    console.log('\n' + chalk.bold('Autonomy Status'));
-    console.log(chalk.gray('─'.repeat(50)));
-    console.log('  Mode:             Disabled');
-    console.log('  Last Cycle:       Never');
-    console.log('  Next Scheduled:   N/A');
+    try {
+      const engine = getAutonomyEngine({ rootDir: ROOT_DIR });
+      await engine.initialize();
+      const status = engine.getStatus();
+
+      const stateColor = {
+        [ENGINE_STATES.RUNNING]: chalk.green,
+        [ENGINE_STATES.PAUSED]: chalk.yellow,
+        [ENGINE_STATES.STOPPED]: chalk.gray,
+        [ENGINE_STATES.ERROR]: chalk.red
+      };
+
+      console.log('\n' + chalk.bold('Autonomy Status'));
+      console.log(chalk.gray('─'.repeat(50)));
+      console.log('  State:            ' + (stateColor[status.state] || chalk.gray)(status.state));
+      console.log('  HDM Level:        ' + status.hdmLevel);
+      console.log('  Current Cycle:    ' + (status.currentCycle ? status.currentCycle.type : 'None'));
+      console.log('\n' + chalk.bold('Last Cycle Runs'));
+      console.log(chalk.gray('─'.repeat(50)));
+      console.log('  Daily:            ' + (status.lastCycleRun.daily || 'Never'));
+      console.log('  Weekly:           ' + (status.lastCycleRun.weekly || 'Never'));
+      console.log('  Monthly:          ' + (status.lastCycleRun.monthly || 'Never'));
+      console.log('\n' + chalk.bold('Triggers'));
+      console.log(chalk.gray('─'.repeat(50)));
+      console.log('  Total:            ' + status.triggers.total);
+      console.log('  Enabled:          ' + status.triggers.enabled);
+      console.log('\n' + chalk.bold('Plugins'));
+      console.log(chalk.gray('─'.repeat(50)));
+      console.log('  Loaded:           ' + status.plugins.total);
+      console.log('  Enabled:          ' + status.plugins.enabled);
+    } catch (error) {
+      console.error(chalk.red('Failed to get autonomy status: ' + error.message));
+    }
+  });
+
+autonomyCmd
+  .command('run <cycle>')
+  .description('Run a cycle manually (daily, weekly, monthly)')
+  .option('--force', 'Force run even if engine is stopped')
+  .action(async (cycle, options) => {
+    const validCycles = Object.values(CYCLE_TYPES);
+    if (!validCycles.includes(cycle)) {
+      console.error(chalk.red(`Invalid cycle type: ${cycle}`));
+      console.log(chalk.gray(`  Valid options: ${validCycles.join(', ')}`));
+      return;
+    }
+
+    const spinner = ora(`Running ${cycle} cycle...`).start();
+
+    try {
+      const engine = getAutonomyEngine({ rootDir: ROOT_DIR });
+      await engine.initialize();
+
+      const report = await engine.runCycle(cycle, { force: options.force });
+
+      if (!report) {
+        spinner.warn(chalk.yellow('Cycle was skipped'));
+        console.log(chalk.gray('  Engine must be running. Use --force to bypass.'));
+        return;
+      }
+
+      const statusColor = report.status === 'completed' ? chalk.green :
+        report.status === 'completed_with_errors' ? chalk.yellow : chalk.red;
+
+      spinner.succeed(statusColor(`${cycle} cycle ${report.status}`));
+
+      console.log('\n' + chalk.bold('Cycle Report'));
+      console.log(chalk.gray('─'.repeat(50)));
+      console.log('  ID:               ' + report.id);
+      console.log('  Started:          ' + report.startTime);
+      console.log('  Ended:            ' + report.endTime);
+      console.log('  Tasks:            ' + report.tasks.length);
+      console.log('  Errors:           ' + report.errors.length);
+
+      if (report.tasks.length > 0) {
+        console.log('\n' + chalk.bold('Tasks'));
+        console.log(chalk.gray('─'.repeat(50)));
+        for (const task of report.tasks) {
+          const icon = task.status === 'completed' ? chalk.green('✓') :
+            task.status === 'skipped' ? chalk.yellow('○') : chalk.red('✗');
+          console.log(`  ${icon} ${task.name}`);
+        }
+      }
+    } catch (error) {
+      spinner.fail(chalk.red('Cycle failed'));
+      console.error(chalk.red('  Error: ' + error.message));
+    }
+  });
+
+autonomyCmd
+  .command('logs')
+  .description('Show autonomy cycle logs')
+  .option('--type <type>', 'Filter by cycle type')
+  .option('--limit <n>', 'Limit number of logs', '10')
+  .action(async (options) => {
+    try {
+      const engine = getAutonomyEngine({ rootDir: ROOT_DIR });
+      await engine.initialize();
+
+      const logs = engine.getLogs({
+        type: options.type,
+        limit: parseInt(options.limit, 10)
+      });
+
+      console.log('\n' + chalk.bold('Autonomy Logs'));
+      console.log(chalk.gray('─'.repeat(70)));
+
+      if (logs.length === 0) {
+        console.log(chalk.gray('  No cycles have been run yet.'));
+        return;
+      }
+
+      for (const log of logs) {
+        const statusColor = log.status === 'completed' ? chalk.green :
+          log.status === 'completed_with_errors' ? chalk.yellow : chalk.red;
+        console.log(`  ${chalk.bold(log.type.padEnd(8))} ${log.startTime}  ${statusColor(log.status)}`);
+      }
+    } catch (error) {
+      console.error(chalk.red('Failed to get logs: ' + error.message));
+    }
+  });
+
+autonomyCmd
+  .command('triggers')
+  .description('Show registered event triggers')
+  .action(async () => {
+    try {
+      const engine = getAutonomyEngine({ rootDir: ROOT_DIR });
+      await engine.initialize();
+
+      const triggers = engine.getTriggers();
+
+      console.log('\n' + chalk.bold('Event Triggers'));
+      console.log(chalk.gray('─'.repeat(70)));
+
+      if (triggers.length === 0) {
+        console.log(chalk.gray('  No triggers registered.'));
+        return;
+      }
+
+      for (const trigger of triggers) {
+        const status = trigger.enabled ? chalk.green('●') : chalk.gray('○');
+        console.log(`  ${status} ${chalk.bold(trigger.name.padEnd(30))} HDM:${trigger.hdmLevel} Fired:${trigger.fireCount}`);
+      }
+    } catch (error) {
+      console.error(chalk.red('Failed to get triggers: ' + error.message));
+    }
+  });
+
+// =============================================================================
+// PLUGIN COMMANDS
+// =============================================================================
+const pluginCmd = program
+  .command('plugin')
+  .description('Plugin management');
+
+pluginCmd
+  .command('list')
+  .description('List installed plugins')
+  .action(async () => {
+    try {
+      const manager = getPluginManager();
+      await manager.initialize(ROOT_DIR);
+      const status = manager.getStatus();
+
+      console.log('\n' + chalk.bold('Installed Plugins'));
+      console.log(chalk.gray('─'.repeat(60)));
+
+      if (status.plugins.length === 0) {
+        console.log(chalk.gray('  No plugins installed.'));
+        console.log(chalk.gray('  Plugins directory: ' + status.pluginsDir));
+        return;
+      }
+
+      for (const plugin of status.plugins) {
+        const stateColor = plugin.state === 'enabled' ? chalk.green :
+          plugin.state === 'error' ? chalk.red : chalk.gray;
+        console.log(`  ${stateColor('●')} ${chalk.bold(plugin.name)} v${plugin.version}`);
+        console.log(`    ${chalk.gray(plugin.description || 'No description')}`);
+      }
+    } catch (error) {
+      console.error(chalk.red('Failed to list plugins: ' + error.message));
+    }
+  });
+
+pluginCmd
+  .command('discover')
+  .description('Discover available plugins')
+  .action(async () => {
+    try {
+      const manager = getPluginManager();
+      await manager.initialize(ROOT_DIR);
+      const discovered = await manager.discover();
+
+      console.log('\n' + chalk.bold('Discovered Plugins'));
+      console.log(chalk.gray('─'.repeat(40)));
+
+      if (discovered.length === 0) {
+        console.log(chalk.gray('  No plugins found in plugins directory.'));
+        return;
+      }
+
+      for (const pluginId of discovered) {
+        console.log(`  ${chalk.cyan('●')} ${pluginId}`);
+      }
+    } catch (error) {
+      console.error(chalk.red('Failed to discover plugins: ' + error.message));
+    }
+  });
+
+pluginCmd
+  .command('load <plugin>')
+  .description('Load a plugin')
+  .action(async (pluginId) => {
+    const spinner = ora(`Loading plugin ${pluginId}...`).start();
+
+    try {
+      const manager = getPluginManager();
+      await manager.initialize(ROOT_DIR);
+      const plugin = await manager.load(pluginId);
+
+      spinner.succeed(chalk.green(`Plugin ${plugin.name} loaded`));
+      console.log(chalk.gray(`  Version: ${plugin.version}`));
+    } catch (error) {
+      spinner.fail(chalk.red('Failed to load plugin'));
+      console.error(chalk.red('  Error: ' + error.message));
+    }
+  });
+
+pluginCmd
+  .command('enable <plugin>')
+  .description('Enable a loaded plugin')
+  .action(async (pluginId) => {
+    const spinner = ora(`Enabling plugin ${pluginId}...`).start();
+
+    try {
+      const manager = getPluginManager();
+      await manager.initialize(ROOT_DIR);
+      await manager.enable(pluginId);
+
+      spinner.succeed(chalk.green(`Plugin ${pluginId} enabled`));
+    } catch (error) {
+      spinner.fail(chalk.red('Failed to enable plugin'));
+      console.error(chalk.red('  Error: ' + error.message));
+    }
+  });
+
+pluginCmd
+  .command('disable <plugin>')
+  .description('Disable a plugin')
+  .action(async (pluginId) => {
+    const spinner = ora(`Disabling plugin ${pluginId}...`).start();
+
+    try {
+      const manager = getPluginManager();
+      await manager.initialize(ROOT_DIR);
+      await manager.disable(pluginId);
+
+      spinner.succeed(chalk.green(`Plugin ${pluginId} disabled`));
+    } catch (error) {
+      spinner.fail(chalk.red('Failed to disable plugin'));
+      console.error(chalk.red('  Error: ' + error.message));
+    }
   });
 
 // =============================================================================
